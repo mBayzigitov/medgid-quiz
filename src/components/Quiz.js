@@ -43,15 +43,14 @@ function Quiz() {
       const savedWeight = localStorage.getItem(`weight-${q.id}`);
       if (q.type === 1 && savedAnswer) {
         return { id: q.id, answer: savedAnswer };
-      } else if (q.type === 2 && savedAnswer && savedWeight) {
-        return { id: q.id, answer: savedAnswer, weight: savedWeight };
+      } else if (q.type === 2 && savedAnswer) {
+        return { id: q.id, answer: savedAnswer, weight: savedWeight || 0 };
       }
       return null;
     }).filter(a => a !== null);
     
     setAnswers(loadedAnswers);
 
-    // Переход на последний неотвеченный вопрос
     const lastUnansweredQuestionIndex = quizQuestions.findIndex(q => 
       !loadedAnswers.some(a => a.id === q.id)
     );
@@ -62,12 +61,17 @@ function Quiz() {
     const updatedAnswers = [...answers];
     const answerIndex = updatedAnswers.findIndex(a => a.id === answer.id);
     if (answerIndex > -1) {
-      updatedAnswers[answerIndex] = answer; // Обновляем существующий ответ
+      updatedAnswers[answerIndex] = answer;
     } else {
-      updatedAnswers.push(answer); // Добавляем новый ответ
+      updatedAnswers.push(answer);
     }
     setAnswers(updatedAnswers);
-    setCurrentQuestionIndex(currentQuestionIndex + 1);
+
+    if (currentQuestionIndex < quizQuestions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      handleSubmit(updatedAnswers);
+    }
   };
 
   const handlePrevious = () => {
@@ -76,48 +80,38 @@ function Quiz() {
     }
   };
 
-  const handleNext = () => {
-    if (currentQuestionIndex < quizQuestions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
-  };
-
-  const handleSubmit = () => {
-    console.log('Submitting answers:', answers);
-    localStorage.clear(); // Очистка localStorage
+  const handleSubmit = (finalAnswers) => {
+    console.log('Submitting answers:', finalAnswers);
+    localStorage.clear();
     // Отправка структуры ответов на сервер
   };
+
+  const currentQuestion = quizQuestions[currentQuestionIndex];
+  const currentAnswer = answers.find(a => a.id === currentQuestion.id);
 
   return (
     <div className="quiz-container">
       {currentQuestionIndex < quizQuestions.length ? (
         <>
-          {quizQuestions[currentQuestionIndex].type === 1 ? (
+          {currentQuestion.type === 1 ? (
             <QuestionType1
-              data={quizQuestions[currentQuestionIndex]}
+              data={currentQuestion}
               onAnswer={handleAnswer}
             />
           ) : (
             <QuestionType2
-              data={quizQuestions[currentQuestionIndex]}
+              data={currentQuestion}
               onAnswer={handleAnswer}
+              savedAnswer={currentAnswer}
             />
           )}
           <div className="navigation-buttons">
-            {currentQuestionIndex > 0 && (
-              <button onClick={handlePrevious}>
-                Назад
-              </button>
-            )}
-            {currentQuestionIndex < quizQuestions.length - 1 ? (
-              <button onClick={handleNext}>
-                Вперед
-              </button>
-            ) : (
-              <button onClick={handleSubmit}>
-                Отправить ответы
-              </button>
-            )}
+            <button onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
+              &larr;
+            </button>
+            <button onClick={() => currentAnswer && handleAnswer(currentAnswer)} disabled={!currentAnswer}>
+              &rarr;
+            </button>
           </div>
         </>
       ) : (

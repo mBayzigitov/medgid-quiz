@@ -1,9 +1,11 @@
 // src/components/QuestionType2.js
 import React, { useEffect, useState } from 'react';
 
-function QuestionType2({ data, onAnswer }) {
-  const [selectedAnswer, setSelectedAnswer] = useState('');
-  const [portionWeight, setPortionWeight] = useState('');
+function QuestionType2({ data, onAnswer, savedAnswer }) {
+  const [selectedAnswer, setSelectedAnswer] = useState(savedAnswer ? savedAnswer.answer : '');
+  const [portionWeight, setPortionWeight] = useState(
+    savedAnswer && savedAnswer.answer !== 'Никогда/очень редко' ? savedAnswer.weight : 0
+  );
 
   useEffect(() => {
     const savedAnswer = localStorage.getItem(`answer-${data.id}`);
@@ -11,14 +13,21 @@ function QuestionType2({ data, onAnswer }) {
     if (savedAnswer) {
       setSelectedAnswer(savedAnswer);
     }
-    if (savedWeight) {
+    if (savedWeight && savedAnswer !== 'Никогда/очень редко') {
       setPortionWeight(savedWeight);
     }
   }, [data.id]);
 
   const handleAnswer = (answer) => {
     setSelectedAnswer(answer);
-    localStorage.setItem(`answer-${data.id}`, answer); 
+    if (answer === 'Никогда/очень редко') {
+      setPortionWeight(0); // Устанавливаем вес в 0
+      localStorage.setItem(`weight-${data.id}`, 0);
+      onAnswer({ id: data.id, answer: answer, weight: 0 }); // Отправляем ответ с весом 0
+    } else {
+      setPortionWeight(''); // Очищаем поле для нового ввода
+    }
+    localStorage.setItem(`answer-${data.id}`, answer);
   };
 
   const handlePortionWeightSubmit = () => {
@@ -43,7 +52,7 @@ function QuestionType2({ data, onAnswer }) {
           </button>
         ))}
       </div>
-      {selectedAnswer && (
+      {selectedAnswer && selectedAnswer !== 'Никогда/очень редко' && (
         <div className="portion-weight-container">
           <label>Сколько граммов весит порция?</label>
           <input
