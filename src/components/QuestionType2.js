@@ -1,11 +1,14 @@
 // src/components/QuestionType2.js
 import React, { useEffect, useState } from 'react';
 
+const MAX_PORTION_WEIGHT = 500
+
 function QuestionType2({ data, onAnswer, savedAnswer }) {
   const [selectedAnswer, setSelectedAnswer] = useState(savedAnswer ? savedAnswer.answer : '');
   const [portionWeight, setPortionWeight] = useState(
     savedAnswer && savedAnswer.answer !== 'Никогда/очень редко' ? savedAnswer.weight : 0
   );
+  const [grammageHint, setGrammageHint] = useState(data ? data.hints : [])
 
   useEffect(() => {
     const savedAnswer = localStorage.getItem(`answer-${data.id}`);
@@ -61,9 +64,14 @@ function QuestionType2({ data, onAnswer, savedAnswer }) {
             onChange={(e) => setPortionWeight(e.target.value)}
             className="portion-weight-input"
           />
-          <button onClick={handlePortionWeightSubmit} className="submit-button">
+          <button onClick={handlePortionWeightSubmit} className="submit-button" disabled={portionWeight <= 0 || portionWeight > MAX_PORTION_WEIGHT}>
             Подтвердить
           </button>
+          <div className="grammage-hints">
+          {grammageHint.map((hint) => (
+            <button onClick={(e) => setPortionWeight(e.target.innerHTML)} className="gram-hints">{hint}</button>
+          ))}
+          </div>
         </div>
       )}
     </div>

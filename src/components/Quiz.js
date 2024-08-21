@@ -13,7 +13,7 @@ const quizQuestions = [
   { 
     id: 2, 
     type: 2, 
-    question: "Как часто вы едите яблоки?", 
+    question: "Как часто вы едите овсянку?", 
     image: "https://via.placeholder.com/150", 
     answers: [
       "Никогда/очень редко", 
@@ -23,7 +23,8 @@ const quizQuestions = [
       "2 раза в месяц", 
       "Раз в месяц", 
       "2-4 раза в год"
-    ]
+    ],
+    hints: [150, 200]
   },
   { 
     id: 3, 
@@ -69,8 +70,6 @@ function Quiz() {
 
     if (currentQuestionIndex < quizQuestions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      handleSubmit(updatedAnswers);
     }
   };
 
@@ -91,34 +90,29 @@ function Quiz() {
 
   return (
     <div className="quiz-container">
-      {currentQuestionIndex < quizQuestions.length ? (
-        <>
-          {currentQuestion.type === 1 ? (
-            <QuestionType1
-              data={currentQuestion}
-              onAnswer={handleAnswer}
-            />
-          ) : (
-            <QuestionType2
-              data={currentQuestion}
-              onAnswer={handleAnswer}
-              savedAnswer={currentAnswer}
-            />
-          )}
-          <div className="navigation-buttons">
-            <button onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
-              &larr;
-            </button>
-            <button onClick={() => currentAnswer && handleAnswer(currentAnswer)} disabled={!currentAnswer}>
-              &rarr;
-            </button>
-          </div>
-        </>
+      {currentQuestion.type === 1 ? (
+        <QuestionType1
+          data={currentQuestion}
+          onAnswer={handleAnswer}
+        />
       ) : (
-        <div className="quiz-results">
-          <h2>Тест завершен!</h2>
-        </div>
+        <QuestionType2
+          data={currentQuestion}
+          onAnswer={handleAnswer}
+          savedAnswer={currentAnswer}
+        />
       )}
+      <div className="navigation-buttons">
+        <button onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
+          &larr;
+        </button>
+        <button id="submit-answers" onClick={() => handleSubmit(answers)} disabled={answers.length !== quizQuestions.length}>
+        Отправить ответы
+        </button>
+        <button onClick={() => currentAnswer && handleAnswer(currentAnswer)} disabled={!currentAnswer || currentQuestion.id === quizQuestions.length}>
+          &rarr;
+        </button>
+      </div>
     </div>
   );
 }

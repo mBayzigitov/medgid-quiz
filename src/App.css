@@ -72,10 +72,35 @@
   background-color: #218838;
 }
 
+.submit-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
 .navigation-buttons {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+}
+
+.navigation-buttons #submit-answers {
+  font-size: 17px;
+  cursor: pointer;
+  border: none;
+  background-color: #4fab58;
+  color: white;
+  border-radius: 5px;
+  width: 150px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.navigation-buttons #submit-answers:disabled {
+  background-color: #8f8686;
+  cursor: not-allowed;
 }
 
 .navigation-buttons button {
