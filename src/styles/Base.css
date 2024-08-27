@@ -1,0 +1,51 @@
+/* Тело и основной контейнер */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+  background-color: #ebd5a6; 
+  color: #ffedce;
+}
+
+.main-container {
+  width: 35%;
+  margin: 60px auto;
+  background-color: #282741;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Кнопки */
+button {
+  background-color: #0f569d; /* Темно-синий фон */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  transition: 0.5s;
+}
+
+button:hover {
+  background-color: #004080; /* Синий при наведении */
+  transition: 0.5s;
+}
+
+.validation-msg {
+  color: #ff9f9f;
+  font-size: 8px;
+}
+
+/* Обеспечение хорошего отображения на телефонах */
+@media (max-width: 768px) {
+  .main-container {
+    width: 75%;
+  }
+}
