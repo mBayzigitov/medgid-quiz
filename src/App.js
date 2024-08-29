@@ -1,9 +1,9 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
 import Quiz from './components/Quiz';
-import Questionnaire from './components/Questionnaire'
-import './styles/Base.css';
+import ApplicationForm from './components/ApplicationForm'
 import './styles/App.css';
+import './styles/Base.css';
 
 const QUIZ_STARTED_FLAG_STORAGE_KEY = "quiz-started"
 const STEPS_BEFORE_QUIZ = 3;
@@ -75,7 +75,7 @@ function App() {
         </div>
       )}
       {step === 2 && (
-        <Questionnaire />
+        <ApplicationForm />
       )}
     </div>
   );

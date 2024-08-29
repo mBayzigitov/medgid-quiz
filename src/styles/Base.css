@@ -5,7 +5,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Montserrat", sans-serif;
-  background-color: #ebd5a6; 
+  background-color: #FFE4C4; 
   color: #ffedce;
 }
 
@@ -36,11 +36,6 @@ button {
 button:hover {
   background-color: #004080; /* Синий при наведении */
   transition: 0.5s;
-}
-
-.validation-msg {
-  color: #ff9f9f;
-  font-size: 8px;
 }
 
 /* Обеспечение хорошего отображения на телефонах */
