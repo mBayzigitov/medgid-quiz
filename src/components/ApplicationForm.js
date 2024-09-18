@@ -8,10 +8,12 @@ const VALIDATION_REQUIRED_FIELD_TEXT = "* Это поле обязательно
 const VALID_FIELD = "validation-ok"
 const INVALID_FIELD = "validation-fail"
 
-function ApplicationForm() {
+function ApplicationForm({ incrementStep }) {
     const { register, formState: { errors }, handleSubmit, setValue } = useForm();
     const onSubmit = data => {
         localStorage.setItem(`aform`, JSON.stringify(data));
+        console.log(data);
+        incrementStep();
     }
 
     useEffect(() => {

@@ -75,7 +75,12 @@ function App() {
         </div>
       )}
       {step === 2 && (
-        <ApplicationForm />
+        <ApplicationForm 
+            incrementStep={handleNextStep}
+        />
+      )}
+      {step === 3 && (
+        <Quiz />
       )}
     </div>
   );
