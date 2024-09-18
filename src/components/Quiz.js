@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import QuestionType1 from './QuestionType1';
 import QuestionType2 from './QuestionType2';
 
+import '../styles/Quiz.css';
+
 const quizQuestions = [
   { 
     id: 1, 
@@ -89,7 +91,7 @@ function Quiz() {
   const currentAnswer = answers.find(a => a.id === currentQuestion.id);
 
   return (
-    <div className="quiz-container">
+    <div className="main-container">
       {currentQuestion.type === 1 ? (
         <QuestionType1
           data={currentQuestion}

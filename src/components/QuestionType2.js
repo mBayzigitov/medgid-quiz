@@ -57,16 +57,18 @@ function QuestionType2({ data, onAnswer, savedAnswer }) {
       </div>
       {selectedAnswer && selectedAnswer !== 'Никогда/очень редко' && (
         <div className="portion-weight-container">
-          <label>Сколько граммов весит порция?</label>
-          <input
-            type="number"
-            value={portionWeight}
-            onChange={(e) => setPortionWeight(e.target.value)}
-            className="portion-weight-input"
-          />
-          <button onClick={handlePortionWeightSubmit} className="submit-button" disabled={portionWeight <= 0 || portionWeight > MAX_PORTION_WEIGHT}>
-            Подтвердить
-          </button>
+          <p id='portionWeightQuestion'>Сколько граммов весит порция?</p>
+          <div className='portion-input-container'>
+            <input
+              type="number"
+              value={portionWeight}
+              onChange={(e) => setPortionWeight(e.target.value)}
+              className="portion-weight-input"
+            />
+            <button onClick={handlePortionWeightSubmit} className="submit-button" disabled={portionWeight <= 0 || portionWeight > MAX_PORTION_WEIGHT}>
+              Подтвердить
+            </button>
+          </div>
           <div className="grammage-hints">
           {grammageHint.map((hint) => (
             <button onClick={(e) => setPortionWeight(e.target.innerHTML)} className="gram-hints">{hint}</button>
