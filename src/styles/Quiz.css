@@ -1,0 +1,68 @@
+/* Контейнер для граммовок */
+.portion-weight-container {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  /* Ввод и кнопка в одной строке */
+  .portion-input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Расстояние между полем ввода и кнопкой */
+    margin-bottom: 15px;
+  }
+  
+  /* Поле ввода для граммовки */
+  .portion-weight-input {
+    width: 80px;
+    padding: 8px;
+    font-size: 16px;
+    margin-left: 3%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Кнопка "Подтвердить" */
+  .submit-button {
+    padding: 8px 16px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    margin: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .submit-button:disabled {
+    background-color: #ccc; /* Отключенная кнопка серого цвета */
+    cursor: not-allowed;
+  }
+  
+  /* Контейнер для кнопок-подсказок */
+  .grammage-hints {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Расстояние между кнопками-подсказками */
+  }
+  
+  /* Стиль кнопок-подсказок граммовок */
+  .gram-hints {
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin: 0;
+  }
+  
+  .gram-hints:hover {
+    background-color: #e0e0e0;
+  }
+
+  #portionWeightQuestion {
+    margin-bottom: 10px;
+  }

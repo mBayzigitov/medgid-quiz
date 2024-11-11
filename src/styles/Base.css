@@ -38,6 +38,10 @@ button:hover {
   transition: 0.5s;
 }
 
+.question-number {
+  color: #fff;
+}
+
 /* Обеспечение хорошего отображения на телефонах */
 @media (max-width: 768px) {
   .main-container {

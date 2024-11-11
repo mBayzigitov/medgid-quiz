@@ -1,0 +1,28 @@
+.q3-raw-answer {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: 32%;
+}
+
+.valid {
+    color: rgb(239, 102, 102);
+    font-size: 10px;
+    margin: 2px 0 0 4px;
+    visibility: hidden;
+}
+
+.invalid {
+    color: rgb(239, 102, 102);
+    font-size: 10px;
+    margin: 2px 0 0 4px;
+}
+
+.err {
+    margin-left: 38%;
+    margin-top: 10px;
+}
+
+input[type="submit"] {
+    margin-left: 41% !important;
+}

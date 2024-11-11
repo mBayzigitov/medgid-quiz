@@ -37,7 +37,19 @@
     box-sizing: border-box;
 }
 
-.name-container {
+#height,
+#weight {
+    display: inline;
+    padding: 5px;
+    margin: 10px 20px 0 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 39%;
+    box-sizing: border-box;
+}
+
+.name-container, .anthropometry-container {
     display: flex;
     margin-bottom: 10px;
     margin-left: 15%;
@@ -51,6 +63,10 @@
 
 .errs-container p {
     margin-right: 16%;
+}
+
+#height-err {
+    margin-right: 12%;
 }
 
 .plain-error {

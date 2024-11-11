@@ -10,27 +10,34 @@ const STEPS_BEFORE_QUIZ = 3;
 
 function App() {
   const [step, setStep] = useState(0)
-  // const [quizStarted, setQuizStarted] = useState(false)
+  const [quizStarted, setQuizStarted] = useState(false)
 
-  // useEffect(() => {
-  //   const startFlag = localStorage.getItem(QUIZ_STARTED_FLAG_STORAGE_KEY)
-  //   if (startFlag) {
-  //     setQuizStarted(true)
-  //   }
-  // });
+  useEffect(() => {
+    const startFlag = localStorage.getItem(QUIZ_STARTED_FLAG_STORAGE_KEY)
+    if (startFlag) {
+      setQuizStarted(true)
+    }
+  });
 
-  // const handleStartQuiz = () => {
-  //   setQuizStarted(true)
-  //   localStorage.setItem(QUIZ_STARTED_FLAG_STORAGE_KEY, true)
-  // }
+  const handleStartQuiz = () => {
+    setQuizStarted(true)
+    localStorage.setItem(QUIZ_STARTED_FLAG_STORAGE_KEY, true)
+  }
 
   const handleNextStep = () => {
     setStep(step + 1)
+
+    if (step >= STEPS_BEFORE_QUIZ - 1) {
+      handleStartQuiz()
+    }
   }
 
   return (
     <div className="App">
-      {step === 0 && (
+      {(step >= STEPS_BEFORE_QUIZ || quizStarted) && (
+        <Quiz />
+      )}
+      {(step === 0 && !quizStarted) && (
         <div>
           <div class="main-container">
             <div className='centered-text'>
@@ -44,7 +51,7 @@ function App() {
           </div>
         </div>
       )}
-      {step === 1 && (
+      {(step === 1 && !quizStarted) && (
         <div className='main-container'>
           <div className='centered-text personal-data'>
             <h4>О персональных данных</h4>
@@ -53,7 +60,7 @@ function App() {
             <p>В соответствии с требованиями ст. 9 ФЗ от 27.07.2006 г. «О
               персональных данных» № 152-ФЗ, настоящим подтверждаю
               свое согласие на обработку Обществом с ограниченной
-              ответственностью «Нутрилоджик» (далее - Оператор) моих
+              ответственностью «МедГид» (далее - Оператор) моих
               персональных данных, включающих: фамилия, имя, отчество,
               дата рождения, пол, электронная почта, телефон, адрес,
               антропометрия, медицинский анамнез.
@@ -74,13 +81,10 @@ function App() {
           </div>
         </div>
       )}
-      {step === 2 && (
+      {(step === 2 && !quizStarted) && (
         <ApplicationForm 
             incrementStep={handleNextStep}
         />
-      )}
-      {step === 3 && (
-        <Quiz />
       )}
     </div>
   );

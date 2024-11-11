@@ -45,6 +45,11 @@ function ApplicationForm({ incrementStep }) {
         );
     };
 
+    // Validate height and weight
+    const validatePosNumbers = (num) => {
+        return num > 0 && num <= 250
+    }
+
     return (
         <div className='main-container'>
             <h4 id='input-data'>Пожалуйста, заполните данные</h4>
@@ -68,6 +73,26 @@ function ApplicationForm({ incrementStep }) {
                 <div className='errs-container'>
                     <p className={`${errors.surname ? INVALID_FIELD : VALID_FIELD}`}>{VALIDATION_REQUIRED_FIELD_TEXT}</p>
                     <p className={`${errors.firstName ? INVALID_FIELD : VALID_FIELD}`}>{VALIDATION_REQUIRED_FIELD_TEXT}</p>
+                </div>
+
+                <div className="anthropometry-container">
+                    {/* Рост */}
+                    <input
+                        id='height'
+                        placeholder='Рост'
+                        {...register("height", { required: true, validate: validatePosNumbers, })}
+                    />
+
+                    {/* Вес */}
+                    <input
+                        id='weight'
+                        placeholder='Вес'
+                        {...register("weight", { required: true, validate: validatePosNumbers, })}
+                    />
+                </div>
+                <div className='errs-container'>
+                    <p id='height-err' className={`${errors.height ? INVALID_FIELD : VALID_FIELD}`}>* Введите корректный рост</p>
+                    <p className={`${errors.weight ? INVALID_FIELD : VALID_FIELD}`}>* Введите корректный вес</p>
                 </div>
 
                 {/* Дата рождения */}
@@ -108,7 +133,7 @@ function ApplicationForm({ incrementStep }) {
                     placeholder='Телефонный номер'
                     {...register("phone", {
                         required: true,
-                        pattern: /^\+?[1-9]\d{1,14}$/,
+                        pattern: /^\+?[1-9]\d{10}$/,
                     })}
                 />
                 <p className={`${errors.phone ? INVALID_FIELD : VALID_FIELD} plain-error`}>* Введите корректный номер телефона</p>

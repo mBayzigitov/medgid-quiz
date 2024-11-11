@@ -1,5 +1,6 @@
 // src/components/QuestionType1.js
 import React, { useEffect, useState } from 'react';
+import {QUESTIONS_AMOUNT as questionsAmount} from './QuizConstants';
 
 function QuestionType1({ data, onAnswer }) {
   const [selectedAnswer, setSelectedAnswer] = useState('');
@@ -20,6 +21,7 @@ function QuestionType1({ data, onAnswer }) {
 
   return (
     <div className="question-container">
+      <p className='question-number'>Вопрос {data.id}/{questionsAmount}</p>
       <h2>{data.question}</h2>
       <div className="answers-container">
         {data.answers.map((answer, index) => (

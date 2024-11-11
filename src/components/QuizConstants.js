@@ -1,0 +1,2 @@
+const QUESTIONS_AMOUNT = 40;
+export { QUESTIONS_AMOUNT };
