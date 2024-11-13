@@ -74,6 +74,12 @@ function ApplicationForm({ incrementStep }) {
                     <p className={`${errors.surname ? INVALID_FIELD : VALID_FIELD}`}>{VALIDATION_REQUIRED_FIELD_TEXT}</p>
                     <p className={`${errors.firstName ? INVALID_FIELD : VALID_FIELD}`}>{VALIDATION_REQUIRED_FIELD_TEXT}</p>
                 </div>
+                {/* Отчество */}
+                <input
+                    id='patronymic'
+                    placeholder='Отчество'
+                    {...register("patronymic", { required: false })}
+                />
 
                 <div className="anthropometry-container">
                     {/* Рост */}
@@ -95,48 +101,23 @@ function ApplicationForm({ incrementStep }) {
                     <p className={`${errors.weight ? INVALID_FIELD : VALID_FIELD}`}>* Введите корректный вес</p>
                 </div>
 
-                {/* Дата рождения */}
+                {/* Возраст */}
+                <input
+                    id='age'
+                    placeholder='Возраст'
+                    {...register("age", { required: true, validate: validatePosNumbers })}
+                />
+                <p id='age-err' className={`${errors.age ? INVALID_FIELD : VALID_FIELD} plain-error`}>* Введите корректный возраст</p>
+
+                {/* Город проживания */}
                 <input
                     className='plain-input'
-                    placeholder='Дата рождения'
-                    {...register("birthDate", {
-                        required: true,
-                        validate: validateDate,
+                    placeholder='Город проживания'
+                    {...register("city", {
+                        required: true
                     })}
                 />
-                <p className={`${errors.birthDate ? INVALID_FIELD : VALID_FIELD} plain-error`}>* Введите корректную дату</p>
-
-                {/* Пол */}
-                <select className='plain-input' {...register("gender", { required: true })}>
-                    <option value="">Выберите пол</option>
-                    <option value="male">Мужской</option>
-                    <option value="female">Женский</option>
-                </select>
-                <p className={`${errors.gender ? INVALID_FIELD : VALID_FIELD} plain-error`}>* Выберите один из вариантов</p>
-
-                {/* Электронная почта */}
-                <input
-                    className='plain-input'
-                    type="email"
-                    placeholder='Электронная почта'
-                    {...register("email", {
-                        required: true,
-                        pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    })}
-                />
-                <p className={`${errors.email ? INVALID_FIELD : VALID_FIELD} plain-error`}>* Введите корректную почту</p>
-
-                {/* Телефонный номер */}
-                <input
-                    className='plain-input'
-                    type="tel"
-                    placeholder='Телефонный номер'
-                    {...register("phone", {
-                        required: true,
-                        pattern: /^\+?[1-9]\d{10}$/,
-                    })}
-                />
-                <p className={`${errors.phone ? INVALID_FIELD : VALID_FIELD} plain-error`}>* Введите корректный номер телефона</p>
+                <p className={`${errors.city ? INVALID_FIELD : VALID_FIELD} plain-error`}>* Введите город проживания</p>
 
                 {/* Отправить */}
                 <input type="submit" />

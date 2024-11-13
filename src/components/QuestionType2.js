@@ -1,10 +1,9 @@
 // src/components/QuestionType2.js
 import React, { useEffect, useState } from 'react';
-import {QUESTIONS_AMOUNT as questionsAmount} from './QuizConstants';
 
 const MAX_PORTION_WEIGHT = 500
 
-function QuestionType2({ data, onAnswer, savedAnswer }) {
+function QuestionType2({ data, onAnswer, savedAnswer, amount }) {
   const [selectedAnswer, setSelectedAnswer] = useState(savedAnswer ? savedAnswer.answer : '');
   const [portionWeight, setPortionWeight] = useState(
     savedAnswer && savedAnswer.answer !== 'Никогда/очень редко' ? savedAnswer.weight : 0
@@ -42,7 +41,7 @@ function QuestionType2({ data, onAnswer, savedAnswer }) {
 
   return (
     <div className="question-container">
-            <p className='question-number'>Вопрос {data.id}/{questionsAmount}</p>
+            <p className='question-number'>Вопрос {data.id}/{amount}</p>
       <h2>{data.question}</h2>
       <div className="image-container">
         <img src={data.image} alt="Product" className="product-image" />

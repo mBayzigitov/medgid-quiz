@@ -11,8 +11,11 @@ const STEPS_BEFORE_QUIZ = 3;
 function App() {
   const [step, setStep] = useState(0)
   const [quizStarted, setQuizStarted] = useState(false)
+  const [clicked, setClicked] = useState(false);
+  const [quizDone, setQuizDone] = useState(false);
 
   useEffect(() => {
+    console.log(clicked);
     const startFlag = localStorage.getItem(QUIZ_STARTED_FLAG_STORAGE_KEY)
     if (startFlag) {
       setQuizStarted(true)
@@ -32,18 +35,33 @@ function App() {
     }
   }
 
+  const endQuiz = () => {
+    setQuizDone(true);
+  }
+
   return (
     <div className="App">
-      {(step >= STEPS_BEFORE_QUIZ || quizStarted) && (
+      {(!quizDone && (step >= STEPS_BEFORE_QUIZ || quizStarted)) && (
         <Quiz />
       )}
-      {(step === 0 && !quizStarted) && (
+      {quizDone && (
+        <div>
+          <div class="main-container">
+            <div className='centered-text'>
+              <img id='logo' src='logo.png'></img>
+              <h4>Тестирование окончено</h4>
+              <p>Спасибо за уделенное время!</p>
+            </div>
+          </div>
+        </div>
+      )}
+      {!quizDone && step === 0 && !quizStarted && (
         <div>
           <div class="main-container">
             <div className='centered-text'>
               <img id='logo' src='logo.png'></img>
               <h4>Здравствуйте!</h4>
-              <p><b>Алла Исаева</b> приглашает Вас оценить сбалансированность вашего питания и микробный состав кишечника</p>
+              <p><b>Алла Исаева</b> приглашает Вас пройти небольшое тестирование, направленное на общую диагностику</p>
               <p>Результат зависит от точности и честности ваших ответов</p>
               <p id='by-mistake'>Если тестирование было отправлено вам ошибочно, проигнорируйте его</p>
             </div>
@@ -55,7 +73,9 @@ function App() {
         <div className='main-container'>
           <div className='centered-text personal-data'>
             <h4>О персональных данных</h4>
-            <p>Уважаемый пользователь, в соответствии с ФЗ №152 мы обязаны получить от вас согласие на обработку персональных данных. Полный
+            <p>Пожалуйста, перейдите по ссылке и подпишите согласие на обработку персональных данных, чтобы продолжить</p>
+            <a href="https://www.google.ru/?hl=ru" onClick={() => setClicked(true)} target="_blank">Подписать согласие</a>
+            {/* <p>Уважаемый пользователь, в соответствии с ФЗ №152 мы обязаны получить от вас согласие на обработку персональных данных. Полный
               текст согласия ниже.</p>
             <p>В соответствии с требованиями ст. 9 ФЗ от 27.07.2006 г. «О
               персональных данных» № 152-ФЗ, настоящим подтверждаю
@@ -76,8 +96,8 @@ function App() {
             <p><b>Настоящим подтверждаю, что понимаю и осознаю, что
               полученная в рамках оказания мне услуг информация носит
               рекомендательный характер и не является назначением врача
-              или иного медицинского работника.</b></p>
-            <button onClick={handleNextStep}>Подтверждаю</button>
+              или иного медицинского работника.</b></p> */}
+            <button className="agreed" onClick={handleNextStep} disabled={!clicked}>Далее</button>
           </div>
         </div>
       )}

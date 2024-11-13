@@ -19,10 +19,28 @@
 }
 
 .err {
-    margin-left: 38%;
+    margin-left: 40%;
     margin-top: 10px;
 }
 
-input[type="submit"] {
-    margin-left: 41% !important;
+#qt3-submit {
+    margin-left: 42% !important;
+}
+
+.external-link {
+    color: white;
+    text-align: right;
+    margin-bottom: 10px;
+    margin-top: 50px;
+    font-size: 13px;
+}
+
+.external-link a {
+    color: #0398fc;
+}
+
+.desc {
+    color: #fff;
+    font-size: 12px;
+    margin-left: 8px;
 }

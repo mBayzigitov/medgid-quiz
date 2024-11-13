@@ -1,30 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from "react-hook-form";
-import {QUESTIONS_AMOUNT as questionsAmount} from './QuizConstants';
 import '../styles/QType3.css';
 
 const VALID_FIELD = "valid"
 const INVALID_FIELD = "invalid"
 
-function QuestionType1({ data, onAnswer }) {
-    const { register, formState: { errors }, handleSubmit, setValue } = useForm();
-    const [selectedAnswer, setSelectedAnswer] = useState('');
-    const [numericalAnswer, setNumericalAnswer] = useState(String(data.numAnswer).toLowerCase() === 'true');
-    const [calcLink, setCalcLink] = useState(data.link);
+function QuestionType3({ data, onAnswer, amount }) {
+    const [rawAnswer, setRawAnswer] = useState("");
+    const { handleSubmit } = useForm();
 
     useEffect(() => {
         const savedAnswer = localStorage.getItem(`answer-${data.id}`);
-        if (savedAnswer) {
-            setSelectedAnswer(savedAnswer);
-        }
-        console.log(data.numAnswer)
+        setRawAnswer(savedAnswer ? savedAnswer : "");
     }, [data.id]);
 
-    const handleAnswer = formData => {
-        setSelectedAnswer(formData.rawAnswer);
-        console.log(data.id + ": " + formData.rawAnswer)
-        localStorage.setItem(`answer-${data.id}`, formData.rawAnswer);
-        onAnswer({ id: data.id, answer: formData.rawAnswer, });
+    const handleAnswer = () => {
+        if (data.isNecessary && rawAnswer === "") {
+            console.log(data.isNecessary)
+            return;
+        }
+
+        console.log(data.id + ": " + rawAnswer)
+        localStorage.setItem(`answer-${data.id}`, rawAnswer);
+        setRawAnswer("");
+        onAnswer({ id: data.id, answer: rawAnswer, });
     };
 
     const validatePosNumbers = (num) => {
@@ -33,38 +32,33 @@ function QuestionType1({ data, onAnswer }) {
 
     return (
         <div className="raw-answer-container">
-            <p className='question-number'>Вопрос {data.id}/{questionsAmount}</p>
+            <p className='question-number'>Вопрос {data.id}/{amount}</p>
             <h2>{data.question}</h2>
+            {data.desc != null && (
+                <p className='desc'>{data.desc}</p>
+            )}
 
             <form onSubmit={handleSubmit(handleAnswer)}>
-                {numericalAnswer && (
-                    <input
-                        className='q3-raw-answer'
-                        id='rawAnswer'
-                        {...register("rawAnswer", { required: true, validate: validatePosNumbers, })}
-                    />
+                <input
+                    className='q3-raw-answer'
+                    id='rawAnswer'
+                    value={rawAnswer}
+                    onChange={(e) => setRawAnswer(e.target.value)}
+                />
+
+                {data.isNecessary && (
+                    <p className={`${rawAnswer === "" ? INVALID_FIELD : VALID_FIELD} err`}>
+                        *Поле обязательно
+                    </p>
                 )}
-                {!numericalAnswer && (
-                    <input
-                        className='q3-raw-answer'
-                        id='rawAnswer'
-                        {...register("rawAnswer", { required: true, })}
-                    />
-                )}
-                <p className={`${errors.rawAnswer ? INVALID_FIELD : VALID_FIELD} err`}>
-                    {numericalAnswer ? (
-                        '*Введено неверное число'
-                    ) : (
-                        '*Это поле обязательно'
-                    )}
-                </p>
+                
                 {data.link != null && (
-                    <p className='external-link'>Ссылка на калькулятор: <a href={data.link} target="_blank">перейти</a></p>
+                    <p className='external-link'>Ссылка{data.linkDesc != null ? " на " + data.linkDesc : ""}: <br></br> <a href={data.link} target="_blank">перейти</a></p>
                 )}
-                <input type="submit" value="Далее" />
+                <input id='qt3-submit' type="submit" value="Далее" />
             </form>
         </div>
     );
 }
 
-export default QuestionType1;
+export default QuestionType3;

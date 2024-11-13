@@ -19,350 +19,142 @@ const sampleAnswers = [
 const quizQuestions = [
   {
     id: 1,
-    type: 1,
-    question: "Опишите свою жизненную активность",
-    answers: [
-      "Работник преимущественно умственного труда",
-      "Работник, занятый легким физическим трудом",
-      "Работник среднего по тяжести труда",
-      "Работник тяжелого физического труда"
-    ]
+    type: 3,
+    question: "Введите свой индекс массы тела",
+    desc: null,
+    link: "https://diet.neolove.ru/calc/ideal_ves_imt/",
+    linkDesc: "калькулятор",
+    isNecessary: false
   },
   {
     id: 2,
     type: 3,
-    question: "Введите свой возраст",
-    numAnswer: true,
-    link: "http://google.com"
+    question: "Сколько Ккал потребляете в день?",
+    desc: "Выбрать среднее значение за 3-5 дней",
+    linkDesc: "дневник питания с подсчетом калорий",
+    link: "https://health-diet.ru/diary/foodDiary",
+    isNecessary: false
   },
   {
     id: 3,
     type: 3,
-    question: "Введите имя питомца",
-    numAnswer: false
+    question: "Требуемое количество Ккал в день",
+    desc: null,
+    linkDesc: "калькулятор",
+    link: "https://diet.neolove.ru/calc/calc_global_pohudenie/",
+    isNecessary: false
   },
-  // {
-  //   id: 2,
-  //   type: 1,
-  //   question: "Опишите свою спортивную активность",
-  //   answers: [
-  //     "Не занимаюсь спортом",
-  //     "Легкий спорт 1-2 раза в неделю",
-  //     "Регулярный спорт 2-3 раза в неделю",
-  //     "Активный спорт, ежедневные тренировки"
-  //   ]
-  // },
-  // {
-  //   id: 3,
-  //   type: 1,
-  //   question: "Следуете ли вы этим видам питания?",
-  //   answers: [
-  //     "Обычный, ем почти все",
-  //     "Не ем только мясо",
-  //     "Не ем только молочку",
-  //     "Не ем сахара, молочку, глютен",
-  //     "Вегетарианство",
-  //     "Кошер (иудаизм)",
-  //     "Сыроедение",
-  //     "Халяль (ислам)"
-  //   ]
-  // },
-  // {
-  //   id: 4,
-  //   type: 2,
-  //   question: "Как часто едите мясные продукты: колбасы, сосиски?",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [50, 75, 100, 150]
-  // },
-  // {
-  //   id: 5,
-  //   type: 2,
-  //   question: "Нежирное мясо: говядина, конина, кролик?",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [50, 75, 100, 150]
-  // },
-  // {
-  //   id: 6,
-  //   type: 2,
-  //   question: "Фастфуд и полуфабрикаты: бутерброды, пельмени и др.",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [110, 300, 315, 500]
-  // },
-  // {
-  //   id: 7,
-  //   type: 2,
-  //   question: "Жирное мясо: свинина, баранина",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [100, 150, 200, 250]
-  // },
-  // {
-  //   id: 8,
-  //   type: 2,
-  //   question: "Птица: курица, утка, гусь и др.",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [80, 120, 145, 200]
-  // },
-  // {
-  //   id: 9,
-  //   type: 2,
-  //   question: "Рыба морская и речная в любом виде",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [50, 105, 140]
-  // },
-  // {
-  //   id: 10,
-  //   type: 2,
-  //   question: "Суши, роллы",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [70, 155, 200, 300]
-  // },
-  // {
-  //   id: 11,
-  //   type: 2,
-  //   question: "Морепродукты: креветки, кальмар и др.",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [50, 100, 150, 200]
-  // },
-  // {
-  //   id: 12,
-  //   type: 2,
-  //   question: "Морские водоросли: морская капуста, чука и др.",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [25, 50, 75, 100]
-  // },
-  // {
-  //   id: 13,
-  //   type: 2,
-  //   question: "Икра рыб",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [10, 30, 50]
-  // },
-  // {
-  //   id: 14,
-  //   type: 2,
-  //   question: "Молоко и кисломолочные продукты",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [100, 200, 250, 300]
-  // },
-  // {
-  //   id: 15,
-  //   type: 2,
-  //   question: "Творог и творожные блюда",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [50, 75, 100, 150]
-  // },
-  // {
-  //   id: 16,
-  //   type: 2,
-  //   question: "Сметана и сливки",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [10, 20, 30, 50]
-  // },
-  // {
-  //   id: 17,
-  //   type: 2,
-  //   question: "Сыры",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [10, 20, 30, 50]
-  // },
-  // {
-  //   id: 18,
-  //   type: 2,
-  //   question: "Яйца: вареные, омлет, яичница",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [60, 100, 150]
-  // },
-  // {
-  //   id: 19,
-  //   type: 2,
-  //   question: "Хлеб белый, черный и др.",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [20, 30, 50, 100]
-  // },
-  // {
-  //   id: 20,
-  //   type: 2,
-  //   question: "Макароны, паста",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [100, 200, 250]
-  // },
-  // {
-  //   id: 21,
-  //   type: 2,
-  //   question: "Картофель и блюда из картофеля",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [200, 300]
-  // },
-  // {
-  //   id: 22,
-  //   type: 2,
-  //   question: "Крупы (на гарнир)",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [100, 200]
-  // },
-  // {
-  //   id: 23,
-  //   type: 2,
-  //   question: "Шоколад и шоколадные конфеты",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [50, 85]
-  // },
-  // {
-  //   id: 24,
-  //   type: 2,
-  //   question: "Изделия из теста: блины, булки и др.",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [30, 70, 125]
-  // },
-  // {
-  //   id: 25,
-  //   type: 2,
-  //   question: "Пирожные, торты, печенье и др.",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [100, 130, 200]
-  // },
-  // {
-  //   id: 26,
-  //   type: 2,
-  //   question: "Зефир, мармелад, варенье и др.",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [20, 30, 50]
-  // },
-  // {
-  //   id: 27,
-  //   type: 2,
-  //   question: "Любые свежие фрукты",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [115, 155, 260, 350]
-  // },
-  // {
-  //   id: 28,
-  //   type: 2,
-  //   question: "Грибы",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [17, 33, 50]
-  // },
-  // {
-  //   id: 29,
-  //   type: 2,
-  //   question: "Любые свежие овощи и зелень",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [40, 60, 150, 200]
-  // },
-  // {
-  //   id: 30,
-  //   type: 2,
-  //   question: "Орехи, семена любые",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [50, 100, 150]
-  // },
-  // {
-  //   id: 31,
-  //   type: 2,
-  //   question: "Сухофрукты",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [50, 100]
-  // },
-  // {
-  //   id: 32,
-  //   type: 2,
-  //   question: "Любые свежие овощи и зелень",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [40, 60, 150, 200]
-  // },
-  // {
-  //   id: 33,
-  //   type: 2,
-  //   question: "Чай, кофе",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [80, 180, 300]
-  // },
-  // {
-  //   id: 34,
-  //   type: 2,
-  //   question: "Сладкие напитки б/а, сок",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [150, 250]
-  // },
-  // {
-  //   id: 35,
-  //   type: 2,
-  //   question: "Пиво",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [200, 250, 500]
-  // },
-  // {
-  //   id: 36,
-  //   type: 2,
-  //   question: "Вины любых сортов",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [100, 200, 250]
-  // },
-  // {
-  //   id: 37,
-  //   type: 2,
-  //   question: "Водка, коньяк, настойки",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [20, 40]
-  // },
-  // {
-  //   id: 38,
-  //   type: 2,
-  //   question: "Масло растительное",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [0.5, 1.5]
-  // },
-  // {
-  //   id: 39,
-  //   type: 2,
-  //   question: "Масло сливочное",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [5, 10, 15]
-  // },
-  // {
-  //   id: 40,
-  //   type: 2,
-  //   question: "Соусы: майонез, сливочный, сырный и др.",
-  //   image: "https://via.placeholder.com/150",
-  //   answers: sampleAnswers,
-  //   hints: [8, 15, 25]
-  // },
+  {
+    id: 4,
+    type: 3,
+    question: "Качество БЖУ в сутки",
+    desc: null,
+    linkDesc: "калькулятор",
+    link: "https://zozhnik.ru/calc_pfc/",
+    isNecessary: false
+  },
+  {
+    id: 5,
+    type: 3,
+    question: "Количество БЖУ в сутки",
+    desc: null,
+    linkDesc: "калькулятор",
+    link: "https://zozhnik.ru/calc_pfc/",
+    isNecessary: false
+  },
+  {
+    id: 6,
+    type: 3,
+    question: "Заболевания, операции",
+    desc: "Перечислите хронические заболевания, операции",
+    linkDesc: null,
+    link: null,
+    isNecessary: true
+  },
+  {
+    id: 7,
+    type: 3,
+    question: "Заболевания на данный момент",
+    desc: "Болеете ли чем-то на данный момент? Например, ОРЗ",
+    linkDesc: null,
+    link: null,
+    isNecessary: false
+  },
+  {
+    id: 8,
+    type: 3,
+    question: "Жалобы",
+    desc: "Опишите жалобы подробнее",
+    linkDesc: null,
+    link: null,
+    isNecessary: false
+  },
+  {
+    id: 9,
+    type: 3,
+    question: "Принимаете ли препараты, БАДы?",
+    desc: "Укажите какие, если принимаете",
+    linkDesc: null,
+    link: null,
+    isNecessary: false
+  },
+  {
+    id: 10,
+    type: 3,
+    question: "Исключенные продукты",
+    desc: "Перечислите продукты, которые исключаете, если такие есть",
+    linkDesc: null,
+    link: null,
+    isNecessary: false
+  },
+  {
+    id: 11,
+    type: 1,
+    question: "Опишите свою спортивную активность",
+    answers: [
+      "Не занимаюсь спортом",
+      "Легкий спорт 1-2 раза в неделю",
+      "Регулярный спорт 2-3 раза в неделю",
+      "Активный спорт, ежедневные тренировки"
+    ]
+  },
+  {
+    id: 12,
+    type: 3,
+    question: "Сон",
+    desc: "С ... до ... , также напишите, если есть проблемы со сном",
+    linkDesc: null,
+    link: null,
+    isNecessary: true
+  },
+  {
+    id: 13,
+    type: 1,
+    question: "Сдавали анализ ХМС по диагностике микробиоты (по Осипову)?",
+    answers: [
+      "Да, недавно",
+      "Да, довольно давно",
+      "Нет"
+    ]
+  },
+  {
+    id: 14,
+    type: 1,
+    question: "Сдавали ли ОАК и др. анализы в недавнее время?",
+    answers: [
+      "Да",
+      "Нет"
+    ]
+  },
+  {
+    id: 15,
+    type: 1,
+    question: "Проходили ли Биоимпедансный анализ?",
+    answers: [
+      "Да",
+      "Нет"
+    ]
+  },
 ];
 
 function Quiz() {
@@ -427,6 +219,7 @@ function Quiz() {
         <QuestionType1
           data={currentQuestion}
           onAnswer={handleAnswer}
+          amount={quizQuestions.length}
         />
       )} 
       {currentQuestion.type === 2 && (
@@ -434,12 +227,14 @@ function Quiz() {
           data={currentQuestion}
           onAnswer={handleAnswer}
           savedAnswer={currentAnswer}
+          amount={quizQuestions.length}
         />
       )}
       {currentQuestion.type === 3 && (
         <QuestionType3
           data={currentQuestion}
           onAnswer={handleAnswer}
+          amount={quizQuestions.length}
         />
       )}
       <div className="navigation-buttons">

@@ -37,6 +37,17 @@
     box-sizing: border-box;
 }
 
+#patronymic {
+    padding: 10px;
+    margin: 10px 20px 0 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 39%;
+    margin-left: 27%;
+    margin-bottom: 20px;
+}
+
 #height,
 #weight {
     display: inline;
@@ -49,10 +60,29 @@
     box-sizing: border-box;
 }
 
+#age {
+    padding: 5px;
+    margin: 10px 20px 0 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 39%;
+    margin-left: 27%;
+}
+
+#age-err {
+    margin-left: 32%;
+    margin-bottom: 5px;
+}
+
 .name-container, .anthropometry-container {
     display: flex;
     margin-bottom: 10px;
     margin-left: 15%;
+}
+
+.anthropometry-container {
+    margin-top: 10px;
 }
 
 .errs-container {

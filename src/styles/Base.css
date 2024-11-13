@@ -74,6 +74,20 @@ p {
   font-size: 12px;
 }
 
+.personal-data a {
+  color: #0398fc;
+  font-size: 18px;
+}
+
+.agreed {
+  margin-top: 25px;
+}
+
+.agreed:disabled {
+  background-color: #ccc; /* Отключенная кнопка серого цвета */
+  cursor: not-allowed;
+}
+
 .quiz-container {
   max-width: 600px;
   margin: 0 auto;
