@@ -15,7 +15,6 @@ function App() {
   const [quizDone, setQuizDone] = useState(false);
 
   useEffect(() => {
-    console.log(clicked);
     const startFlag = localStorage.getItem(QUIZ_STARTED_FLAG_STORAGE_KEY)
     if (startFlag) {
       setQuizStarted(true)

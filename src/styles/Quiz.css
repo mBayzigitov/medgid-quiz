@@ -66,3 +66,139 @@
   #portionWeightQuestion {
     margin-bottom: 10px;
   }
+
+  .question-type-4-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .question-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffedce;
+  }
+  
+  .input-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
+  }
+  
+  .input-field {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 100%;
+  }
+  
+  .add-button {
+    padding: 0.5rem 1rem;
+    background-color: #5a9b6d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .add-button:hover {
+    background-color: #4c854f;
+  }
+  
+  .add-button:disabled {
+    background-color: #d1d1d1;
+    cursor: not-allowed;
+  }
+  
+  .items-list {
+    width: 100%;
+  }
+  
+  .items-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .list-item {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding: 10px;
+    margin-bottom: 0.5rem;
+    background-color: #0057b3a3;
+    border-radius: 6px;
+  }
+
+  .list-item-name {
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+  }
+  
+  .remove-button {
+    border: none;
+    color: #ff5555;
+    cursor: pointer;
+    background: #0c2e52;
+    margin-right: 0%;
+  }
+  
+  .remove-button:hover {
+    color: #d03a3a;
+  }
+  
+  .hints {
+    width: 100%;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.527);
+  }
+  
+  .hints-title {
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+  
+  .hints-list {
+    display: flex;
+    gap: 0.2rem;
+    flex-wrap: wrap;
+  }
+  
+  .hint-button {
+    padding: 0.5rem 1rem;
+    background-color: #0056b3;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+  }
+  
+  .hint-button:hover {
+    background-color: #4680bf;
+  }
+
+  .q4-submit-button {
+    padding: 8px 16px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    margin: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .q4-submit-button:disabled {
+    background-color: #ccc; /* Отключенная кнопка серого цвета */
+    cursor: not-allowed;
+  }
+  

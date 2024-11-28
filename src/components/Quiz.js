@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import QuestionType1 from './QuestionType1';
 import QuestionType2 from './QuestionType2';
 import QuestionType3 from './QuestionType3';
+import QuestionType4 from './QuestionType4';
 
 import '../styles/Quiz.css';
 
@@ -15,6 +16,12 @@ import '../styles/Quiz.css';
 //   "Раз в месяц",
 //   "2-4 раза в год"
 // ]
+
+const sampleHints = [
+  "Нутрилайт (Nutrilite)",
+  "Адженис (Agenyz)",
+  "4Life Трансфер Фактор"
+]
 
 const quizQuestions = [
   {
@@ -51,7 +58,7 @@ const quizQuestions = [
   },
   {
     type: 3,
-    question: "Принимаете ли препараты, БАДы?",
+    question: "Принимаете ли какие-то препараты?",
     desc: "Укажите какие, если принимаете",
     linkDesc: null,
     link: null,
@@ -85,10 +92,17 @@ const quizQuestions = [
   },
   {
     type: 1,
-    question: "Сдавали анализ ХМС по диагностике микробиоты (по Осипову)?",
+    question: "Сдавали ли за последние полгода биоимпедансометрию",
     answers: [
-      "Да, недавно",
-      "Да, довольно давно",
+      "Да",
+      "Нет"
+    ]
+  },
+  {
+    type: 1,
+    question: "Есть ли результат исследования методом ХМС «по Осипову» микробиома кишечника за последние 3 месяца",
+    answers: [
+      "Да",
       "Нет"
     ]
   },
@@ -108,6 +122,11 @@ const quizQuestions = [
       "Нет"
     ]
   },
+  {
+    type: 4,
+    question: "Какие из БАДов принимаете?",
+    hints: sampleHints
+  }
 ].map((question, index) => ({ id: index + 1, ...question }));
 
 function Quiz({ endQuiz }) {
@@ -124,12 +143,13 @@ function Quiz({ endQuiz }) {
         return { id: q.id, answer: savedAnswer, weight: savedWeight || 0 };
       } else if (q.type === 3 && savedAnswer) {
         return { id: q.id, answer: savedAnswer, }
+      } else if (q.type === 4 && savedAnswer) {
+        return { id: q.id, answer: savedAnswer }
       }
       return null;
     }).filter(a => a !== null);
 
     setAnswers(loadedAnswers);
-    console.log(loadedAnswers)
 
     const lastUnansweredQuestionIndex = quizQuestions.findIndex(q =>
       !loadedAnswers.some(a => a.id === q.id)
@@ -150,6 +170,8 @@ function Quiz({ endQuiz }) {
     if (currentQuestionIndex < quizQuestions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
+
+    console.log(answer);
   };
 
   const handlePrevious = () => {
@@ -246,6 +268,13 @@ function Quiz({ endQuiz }) {
       )}
       {currentQuestion.type === 3 && (
         <QuestionType3
+          data={currentQuestion}
+          onAnswer={handleAnswer}
+          amount={quizQuestions.length}
+        />
+      )}
+      {currentQuestion.type === 4 && (
+        <QuestionType4
           data={currentQuestion}
           onAnswer={handleAnswer}
           amount={quizQuestions.length}
