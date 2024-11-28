@@ -71,12 +71,20 @@ p {
 }
 
 .personal-data {
-  font-size: 12px;
+  font-size: 12px;  
 }
 
 .personal-data a {
   color: #0398fc;
   font-size: 18px;
+}
+
+.personal-data h4 {
+  font-size: 20px;
+}
+
+.personal-data p {
+  font-size: 17px;
 }
 
 .agreed {

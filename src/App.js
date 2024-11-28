@@ -42,7 +42,9 @@ function App() {
   return (
     <div className="App">
       {(!quizDone && (step >= STEPS_BEFORE_QUIZ || quizStarted)) && (
-        <Quiz />
+        <Quiz 
+          endQuiz={endQuiz}
+        />
       )}
       {quizDone && (
         <div>
@@ -61,7 +63,7 @@ function App() {
             <div className='centered-text'>
               <img id='logo' src='logo.png'></img>
               <h4>Здравствуйте!</h4>
-              <p><b>Алла Исаева</b> приглашает Вас пройти небольшое тестирование, направленное на общую диагностику</p>
+              <p><b>Алла Исаева</b> с исполнением ресурсов сайта <a href="https://medgid.pro" target="_blank">medgid.pro</a> приглашает Вас пройти небольшое тестирование, направленное на общую диагностику</p>
               <p>Результат зависит от точности и честности ваших ответов</p>
               <p id='by-mistake'>Если тестирование было отправлено вам ошибочно, проигнорируйте его</p>
             </div>
@@ -73,8 +75,8 @@ function App() {
         <div className='main-container'>
           <div className='centered-text personal-data'>
             <h4>О персональных данных</h4>
-            <p>Пожалуйста, перейдите по ссылке и подпишите согласие на обработку персональных данных, чтобы продолжить</p>
-            <a href="https://www.google.ru/?hl=ru" onClick={() => setClicked(true)} target="_blank">Подписать согласие</a>
+            <p>Проходя опросник, вы соглашаетесь с политикой обработки персональных данных</p>
+            <a href="https://medgid.pro/policy/" onClick={() => setClicked(true)} target="_blank">Ознакомиться с политикой обработки данных</a>
             {/* <p>Уважаемый пользователь, в соответствии с ФЗ №152 мы обязаны получить от вас согласие на обработку персональных данных. Полный
               текст согласия ниже.</p>
             <p>В соответствии с требованиями ст. 9 ФЗ от 27.07.2006 г. «О

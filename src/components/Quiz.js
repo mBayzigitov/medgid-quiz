@@ -6,28 +6,18 @@ import QuestionType3 from './QuestionType3';
 
 import '../styles/Quiz.css';
 
-const sampleAnswers = [
-  "Никогда/очень редко",
-  "Раз в день",
-  "2-4 раза в неделю",
-  "Раз в неделю",
-  "2 раза в месяц",
-  "Раз в месяц",
-  "2-4 раза в год"
-]
+// const sampleAnswers = [
+//   "Никогда/очень редко",
+//   "Раз в день",
+//   "2-4 раза в неделю",
+//   "Раз в неделю",
+//   "2 раза в месяц",
+//   "Раз в месяц",
+//   "2-4 раза в год"
+// ]
 
 const quizQuestions = [
   {
-    id: 1,
-    type: 3,
-    question: "Введите свой индекс массы тела",
-    desc: null,
-    link: "https://diet.neolove.ru/calc/ideal_ves_imt/",
-    linkDesc: "калькулятор",
-    isNecessary: false
-  },
-  {
-    id: 2,
     type: 3,
     question: "Сколько Ккал потребляете в день?",
     desc: "Выбрать среднее значение за 3-5 дней",
@@ -36,34 +26,6 @@ const quizQuestions = [
     isNecessary: false
   },
   {
-    id: 3,
-    type: 3,
-    question: "Требуемое количество Ккал в день",
-    desc: null,
-    linkDesc: "калькулятор",
-    link: "https://diet.neolove.ru/calc/calc_global_pohudenie/",
-    isNecessary: false
-  },
-  {
-    id: 4,
-    type: 3,
-    question: "Качество БЖУ в сутки",
-    desc: null,
-    linkDesc: "калькулятор",
-    link: "https://zozhnik.ru/calc_pfc/",
-    isNecessary: false
-  },
-  {
-    id: 5,
-    type: 3,
-    question: "Количество БЖУ в сутки",
-    desc: null,
-    linkDesc: "калькулятор",
-    link: "https://zozhnik.ru/calc_pfc/",
-    isNecessary: false
-  },
-  {
-    id: 6,
     type: 3,
     question: "Заболевания, операции",
     desc: "Перечислите хронические заболевания, операции",
@@ -72,7 +34,6 @@ const quizQuestions = [
     isNecessary: true
   },
   {
-    id: 7,
     type: 3,
     question: "Заболевания на данный момент",
     desc: "Болеете ли чем-то на данный момент? Например, ОРЗ",
@@ -81,7 +42,6 @@ const quizQuestions = [
     isNecessary: false
   },
   {
-    id: 8,
     type: 3,
     question: "Жалобы",
     desc: "Опишите жалобы подробнее",
@@ -90,7 +50,6 @@ const quizQuestions = [
     isNecessary: false
   },
   {
-    id: 9,
     type: 3,
     question: "Принимаете ли препараты, БАДы?",
     desc: "Укажите какие, если принимаете",
@@ -99,7 +58,6 @@ const quizQuestions = [
     isNecessary: false
   },
   {
-    id: 10,
     type: 3,
     question: "Исключенные продукты",
     desc: "Перечислите продукты, которые исключаете, если такие есть",
@@ -108,7 +66,6 @@ const quizQuestions = [
     isNecessary: false
   },
   {
-    id: 11,
     type: 1,
     question: "Опишите свою спортивную активность",
     answers: [
@@ -119,7 +76,6 @@ const quizQuestions = [
     ]
   },
   {
-    id: 12,
     type: 3,
     question: "Сон",
     desc: "С ... до ... , также напишите, если есть проблемы со сном",
@@ -128,7 +84,6 @@ const quizQuestions = [
     isNecessary: true
   },
   {
-    id: 13,
     type: 1,
     question: "Сдавали анализ ХМС по диагностике микробиоты (по Осипову)?",
     answers: [
@@ -138,7 +93,6 @@ const quizQuestions = [
     ]
   },
   {
-    id: 14,
     type: 1,
     question: "Сдавали ли ОАК и др. анализы в недавнее время?",
     answers: [
@@ -147,7 +101,6 @@ const quizQuestions = [
     ]
   },
   {
-    id: 15,
     type: 1,
     question: "Проходили ли Биоимпедансный анализ?",
     answers: [
@@ -155,9 +108,9 @@ const quizQuestions = [
       "Нет"
     ]
   },
-];
+].map((question, index) => ({ id: index + 1, ...question }));
 
-function Quiz() {
+function Quiz({ endQuiz }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
 
@@ -207,7 +160,68 @@ function Quiz() {
 
   const handleSubmit = (finalAnswers) => {
     console.log('Submitting answers:', finalAnswers);
+
+    const data = JSON.parse(localStorage.getItem(`aform`));
+
+    // Расчёт ИМТ
+    const bmi = (data.weight / ((data.height / 100) ** 2)).toFixed(2); // Преобразуем рост из см в метры
+
+    // Интерпретация ИМТ
+    let bmiInterpretation = "";
+    if (bmi <= 16) {
+        bmiInterpretation = "Выраженный дефицит массы тела";
+    } else if (bmi > 16 && bmi <= 18.5) {
+        bmiInterpretation = "Недостаточная (дефицит) масса тела";
+    } else if (bmi > 18.5 && bmi <= 25) {
+        bmiInterpretation = "Норма";
+    } else if (bmi > 25 && bmi <= 30) {
+        bmiInterpretation = "Избыточная масса тела (предожирение)";
+    } else if (bmi > 30 && bmi <= 35) {
+        bmiInterpretation = "Ожирение 1 степени";
+    } else if (bmi > 35 && bmi <= 40) {
+        bmiInterpretation = "Ожирение 2 степени";
+    } else if (bmi > 40) {
+        bmiInterpretation = "Ожирение 3 степени";
+    }
+
+    // Расчёт базового метаболизма (BMR) по формуле Миффлина-Сан Жеора
+    const isMale = data.gender === "male"; // Предполагается, что в data есть поле gender с значением "male" или "female"
+    const bmr = (
+        10 * data.weight +
+        6.25 * data.height -
+        5 * data.age +
+        (isMale ? 5 : -161)
+    );
+
+    // Учёт коэффициента активности
+    const activityMultiplier = data.activityLevel || 1.2; // Предполагается, что в data есть поле activityLevel
+    const calories = (bmr * activityMultiplier).toFixed(2);
+
+    // Расчёт БЖУ
+    const proteinCalories = calories * 0.3; // 30% калорий на белки
+    const fatCalories = calories * 0.3; // 30% калорий на жиры
+    const carbCalories = calories * 0.4; // 40% калорий на углеводы
+
+    const macros = {
+        protein: (proteinCalories / 4).toFixed(2), // Белки: 1 г = 4 ккал
+        fat: (fatCalories / 9).toFixed(2), // Жиры: 1 г = 9 ккал
+        carbs: (carbCalories / 4).toFixed(2) // Углеводы: 1 г = 4 ккал
+    };
+
+    // Добавляем результаты в data
+    const enrichedData = {
+        ...data,
+        bmi,
+        bmiInterpretation,
+        calories,
+        macros
+    };
+
+    console.log("Application form data: ", enrichedData);
+
     localStorage.clear();
+
+    endQuiz();
   };
 
   const currentQuestion = quizQuestions[currentQuestionIndex];
