@@ -81,6 +81,14 @@ function ApplicationForm({ incrementStep }) {
                     {...register("patronymic", { required: false })}
                 />
 
+                {/* Пол */}
+                <select className='plain-input' {...register("gender", { required: true })}>
+                    <option value="">Выберите пол</option>
+                    <option value="male">Мужской</option>
+                    <option value="female">Женский</option>
+                </select>
+                <p className={`${errors.gender ? INVALID_FIELD : VALID_FIELD} plain-error`}>* Выберите один из вариантов</p>
+
                 <div className="anthropometry-container">
                     {/* Рост */}
                     <input

@@ -5,6 +5,8 @@ import QuestionType2 from './QuestionType2';
 import QuestionType3 from './QuestionType3';
 import QuestionType4 from './QuestionType4';
 
+import { generatePDF } from "./PdfGenerator";
+
 import '../styles/Quiz.css';
 
 // const sampleAnswers = [
@@ -16,6 +18,12 @@ import '../styles/Quiz.css';
 //   "Раз в месяц",
 //   "2-4 раза в год"
 // ]
+
+const ACTIVITY_LEVEL_1 = "Не занимаюсь спортом";
+const ACTIVITY_LEVEL_2 = "Легкий спорт 1-2 раза в неделю";
+const ACTIVITY_LEVEL_3 = "Регулярный спорт 2-3 раза в неделю";
+const ACTIVITY_LEVEL_4 = "Активный спорт, ежедневные тренировки";
+
 
 const sampleHints = [
   "Нутрилайт (Nutrilite)",
@@ -76,10 +84,10 @@ const quizQuestions = [
     type: 1,
     question: "Опишите свою спортивную активность",
     answers: [
-      "Не занимаюсь спортом",
-      "Легкий спорт 1-2 раза в неделю",
-      "Регулярный спорт 2-3 раза в неделю",
-      "Активный спорт, ежедневные тренировки"
+      ACTIVITY_LEVEL_1,
+      ACTIVITY_LEVEL_2,
+      ACTIVITY_LEVEL_3,
+      ACTIVITY_LEVEL_4
     ]
   },
   {
@@ -170,8 +178,6 @@ function Quiz({ endQuiz }) {
     if (currentQuestionIndex < quizQuestions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
-
-    console.log(answer);
   };
 
   const handlePrevious = () => {
@@ -184,6 +190,7 @@ function Quiz({ endQuiz }) {
     console.log('Submitting answers:', finalAnswers);
 
     const data = JSON.parse(localStorage.getItem(`aform`));
+    const activityLevel = localStorage.getItem(`answer-7`);
 
     // Расчёт ИМТ
     const bmi = (data.weight / ((data.height / 100) ** 2)).toFixed(2); // Преобразуем рост из см в метры
@@ -216,13 +223,35 @@ function Quiz({ endQuiz }) {
     );
 
     // Учёт коэффициента активности
-    const activityMultiplier = data.activityLevel || 1.2; // Предполагается, что в data есть поле activityLevel
-    const calories = (bmr * activityMultiplier).toFixed(2);
+    let activityMultiplier = 0;
+    switch (activityLevel) {
+      case ACTIVITY_LEVEL_1:
+        activityMultiplier = 1.2;
+        break;
+      case ACTIVITY_LEVEL_2, ACTIVITY_LEVEL_3:
+        activityMultiplier = 1.55;
+        break;
+      case ACTIVITY_LEVEL_4:
+        activityMultiplier = 1.9;
+        break;
+    }
+
+    const calories = (1.1 * bmr * activityMultiplier).toFixed(2);
+
+    // Идеальный вес
+    let idealWeight = 0;
+    if (data.height <= 165) {
+      idealWeight = data.height - 100;
+    } else if (data.height > 165 && data.height <= 175) {
+      idealWeight = data.height - 105;
+    } else {
+      idealWeight = data.height - 110;
+    }
 
     // Расчёт БЖУ
-    const proteinCalories = calories * 0.3; // 30% калорий на белки
-    const fatCalories = calories * 0.3; // 30% калорий на жиры
-    const carbCalories = calories * 0.4; // 40% калорий на углеводы
+    const proteinCalories = (calories * 0.2).toFixed(2); // 30% калорий на белки
+    const fatCalories = (calories * 0.3).toFixed(2); // 30% калорий на жиры
+    const carbCalories = (calories * 0.5).toFixed(2); // 40% калорий на углеводы
 
     const macros = {
         protein: (proteinCalories / 4).toFixed(2), // Белки: 1 г = 4 ккал
@@ -230,13 +259,61 @@ function Quiz({ endQuiz }) {
         carbs: (carbCalories / 4).toFixed(2) // Углеводы: 1 г = 4 ккал
     };
 
+    const dayMealsCalories = {
+      breakfast: {
+        name: "Завтрак",
+        calories: (calories * 0.25).toFixed(2),
+        protein: (proteinCalories * 0.25).toFixed(2),
+        fat: (fatCalories * 0.25).toFixed(2),
+        carbs: (carbCalories * 0.25).toFixed(2)
+      },
+      snack_1: {
+        name: "Перекус",
+        calories: (calories * 0.1).toFixed(2),
+        protein: (proteinCalories * 0.1).toFixed(2),
+        fat: (fatCalories * 0.1).toFixed(2),
+        carbs: (carbCalories * 0.1).toFixed(2)
+      },
+      lunch: {
+        name: "Обед",
+        calories: (calories * 0.35).toFixed(2),
+        protein: (proteinCalories * 0.35).toFixed(2),
+        fat: (fatCalories * 0.35).toFixed(2),
+        carbs: (carbCalories * 0.35).toFixed(2)
+      },
+      lunch: {
+        name: "Обед",
+        calories: (calories * 0.35).toFixed(2),
+        protein: (proteinCalories * 0.35).toFixed(2),
+        fat: (fatCalories * 0.35).toFixed(2),
+        carbs: (carbCalories * 0.35).toFixed(2)
+      },
+      snack_2: {
+        name: "Перекус",
+        calories: (calories * 0.1).toFixed(2),
+        protein: (proteinCalories * 0.1).toFixed(2),
+        fat: (fatCalories * 0.1).toFixed(2),
+        carbs: (carbCalories * 0.1).toFixed(2)
+      },
+      dinner: {
+        name: "Ужин",
+        calories: (calories * 0.2).toFixed(2),
+        protein: (proteinCalories * 0.2).toFixed(2),
+        fat: (fatCalories * 0.2).toFixed(2),
+        carbs: (carbCalories * 0.2).toFixed(2)
+      },
+    }
+
     // Добавляем результаты в data
     const enrichedData = {
         ...data,
         bmi,
         bmiInterpretation,
+        idealWeight,
+        bmr,
         calories,
-        macros
+        macros,
+        dayMealsCalories
     };
 
     console.log("Application form data: ", enrichedData);
@@ -244,6 +321,8 @@ function Quiz({ endQuiz }) {
     localStorage.clear();
 
     endQuiz();
+
+    generatePDF(finalAnswers, quizQuestions, enrichedData);
   };
 
   const currentQuestion = quizQuestions[currentQuestionIndex];

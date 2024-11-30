@@ -21,7 +21,7 @@ function QuestionType4({data, onAnswer, amount}) {
   // Загружаем список при монтировании компонента
   useEffect(() => {
     loadItemsFromLocalStorage();
-  }, []);
+  }, [data.id]);
 
   // Функция добавления элемента
   const handleAddItem = () => {
@@ -48,7 +48,7 @@ function QuestionType4({data, onAnswer, amount}) {
   };
 
   const handleAnswer = () => {
-    onAnswer(items);
+    onAnswer({ id: data.id, items});
   }
 
   return (
