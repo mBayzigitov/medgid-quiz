@@ -20,7 +20,7 @@ export const generatePDF = (questionsAnswers, questions, applicationFormData) =>
     `Фамилия: ${applicationFormData.surname}`,
     `Имя: ${applicationFormData.firstName}`,
     `Отчество: ${applicationFormData.patronymic}`,
-    `Пол: ${(applicationFormData.gender == "male") ? "мужской" : "женский"}`,
+    `Пол: ${(applicationFormData.gender === "male") ? "мужской" : "женский"}`,
     `Рост: ${applicationFormData.height} см`,
     `Вес: ${applicationFormData.weight} кг`,
     `Возраст: ${applicationFormData.age}`,
@@ -59,8 +59,9 @@ export const generatePDF = (questionsAnswers, questions, applicationFormData) =>
   doc.setFontSize(12);
 
   questionsAnswers.forEach((qa) => {
+    const answer = (qa.answer != null && qa.answer !== ' ') ? qa.answer : null;
     const qText = `Вопрос ${qa.id}: ${questions[qa.id - 1].question}`;
-    const aText = `Ответ: ${qa.answer || "Нет ответа"}`
+    const aText = `Ответ: ${answer || "Нет ответа"}`
     doc.text(qText, 10, yOffset);
     doc.text(aText, 10, yOffset + 5);
 

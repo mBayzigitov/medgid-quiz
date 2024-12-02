@@ -21,7 +21,7 @@ function QuestionType3({ data, onAnswer, amount }) {
         }
 
         console.log(data.id + ": " + rawAnswer)
-        localStorage.setItem(`answer-${data.id}`, rawAnswer);
+        localStorage.setItem(`answer-${data.id}`, (rawAnswer ? rawAnswer : " "));
         setRawAnswer("");
         onAnswer({ id: data.id, answer: rawAnswer, });
     };

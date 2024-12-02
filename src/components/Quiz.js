@@ -5,8 +5,6 @@ import QuestionType2 from './QuestionType2';
 import QuestionType3 from './QuestionType3';
 import QuestionType4 from './QuestionType4';
 
-import { generatePDF } from "./PdfGenerator";
-
 import '../styles/Quiz.css';
 
 // const sampleAnswers = [
@@ -19,125 +17,7 @@ import '../styles/Quiz.css';
 //   "2-4 раза в год"
 // ]
 
-const ACTIVITY_LEVEL_1 = "Не занимаюсь спортом";
-const ACTIVITY_LEVEL_2 = "Легкий спорт 1-2 раза в неделю";
-const ACTIVITY_LEVEL_3 = "Регулярный спорт 2-3 раза в неделю";
-const ACTIVITY_LEVEL_4 = "Активный спорт, ежедневные тренировки";
-
-
-const sampleHints = [
-  "Нутрилайт (Nutrilite)",
-  "Адженис (Agenyz)",
-  "4Life Трансфер Фактор"
-]
-
-const quizQuestions = [
-  {
-    type: 3,
-    question: "Сколько Ккал потребляете в день?",
-    desc: "Выбрать среднее значение за 3-5 дней",
-    linkDesc: "дневник питания с подсчетом калорий",
-    link: "https://health-diet.ru/diary/foodDiary",
-    isNecessary: false
-  },
-  {
-    type: 3,
-    question: "Заболевания, операции",
-    desc: "Перечислите хронические заболевания, операции",
-    linkDesc: null,
-    link: null,
-    isNecessary: true
-  },
-  {
-    type: 3,
-    question: "Заболевания на данный момент",
-    desc: "Болеете ли чем-то на данный момент? Например, ОРЗ",
-    linkDesc: null,
-    link: null,
-    isNecessary: false
-  },
-  {
-    type: 3,
-    question: "Жалобы",
-    desc: "Опишите жалобы подробнее",
-    linkDesc: null,
-    link: null,
-    isNecessary: false
-  },
-  {
-    type: 3,
-    question: "Принимаете ли какие-то препараты?",
-    desc: "Укажите какие, если принимаете",
-    linkDesc: null,
-    link: null,
-    isNecessary: false
-  },
-  {
-    type: 3,
-    question: "Исключенные продукты",
-    desc: "Перечислите продукты, которые исключаете, если такие есть",
-    linkDesc: null,
-    link: null,
-    isNecessary: false
-  },
-  {
-    type: 1,
-    question: "Опишите свою спортивную активность",
-    answers: [
-      ACTIVITY_LEVEL_1,
-      ACTIVITY_LEVEL_2,
-      ACTIVITY_LEVEL_3,
-      ACTIVITY_LEVEL_4
-    ]
-  },
-  {
-    type: 3,
-    question: "Сон",
-    desc: "С ... до ... , также напишите, если есть проблемы со сном",
-    linkDesc: null,
-    link: null,
-    isNecessary: true
-  },
-  {
-    type: 1,
-    question: "Сдавали ли за последние полгода биоимпедансометрию",
-    answers: [
-      "Да",
-      "Нет"
-    ]
-  },
-  {
-    type: 1,
-    question: "Есть ли результат исследования методом ХМС «по Осипову» микробиома кишечника за последние 3 месяца",
-    answers: [
-      "Да",
-      "Нет"
-    ]
-  },
-  {
-    type: 1,
-    question: "Сдавали ли ОАК и др. анализы в недавнее время?",
-    answers: [
-      "Да",
-      "Нет"
-    ]
-  },
-  {
-    type: 1,
-    question: "Проходили ли Биоимпедансный анализ?",
-    answers: [
-      "Да",
-      "Нет"
-    ]
-  },
-  {
-    type: 4,
-    question: "Какие из БАДов принимаете?",
-    hints: sampleHints
-  }
-].map((question, index) => ({ id: index + 1, ...question }));
-
-function Quiz({ endQuiz }) {
+function Quiz({ quizQuestions, endQuiz, setFinalAnswers }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState([]);
 
@@ -160,7 +40,7 @@ function Quiz({ endQuiz }) {
     setAnswers(loadedAnswers);
 
     const lastUnansweredQuestionIndex = quizQuestions.findIndex(q =>
-      !loadedAnswers.some(a => a.id === q.id)
+      !loadedAnswers.findLast(a => a.id === q.id)
     );
     setCurrentQuestionIndex(lastUnansweredQuestionIndex !== -1 ? lastUnansweredQuestionIndex : quizQuestions.length - 1);
   }, []);
@@ -187,142 +67,8 @@ function Quiz({ endQuiz }) {
   };
 
   const handleSubmit = (finalAnswers) => {
-    console.log('Submitting answers:', finalAnswers);
-
-    const data = JSON.parse(localStorage.getItem(`aform`));
-    const activityLevel = localStorage.getItem(`answer-7`);
-
-    // Расчёт ИМТ
-    const bmi = (data.weight / ((data.height / 100) ** 2)).toFixed(2); // Преобразуем рост из см в метры
-
-    // Интерпретация ИМТ
-    let bmiInterpretation = "";
-    if (bmi <= 16) {
-        bmiInterpretation = "Выраженный дефицит массы тела";
-    } else if (bmi > 16 && bmi <= 18.5) {
-        bmiInterpretation = "Недостаточная (дефицит) масса тела";
-    } else if (bmi > 18.5 && bmi <= 25) {
-        bmiInterpretation = "Норма";
-    } else if (bmi > 25 && bmi <= 30) {
-        bmiInterpretation = "Избыточная масса тела (предожирение)";
-    } else if (bmi > 30 && bmi <= 35) {
-        bmiInterpretation = "Ожирение 1 степени";
-    } else if (bmi > 35 && bmi <= 40) {
-        bmiInterpretation = "Ожирение 2 степени";
-    } else if (bmi > 40) {
-        bmiInterpretation = "Ожирение 3 степени";
-    }
-
-    // Расчёт базового метаболизма (BMR) по формуле Миффлина-Сан Жеора
-    const isMale = data.gender === "male"; // Предполагается, что в data есть поле gender с значением "male" или "female"
-    const bmr = (
-        10 * data.weight +
-        6.25 * data.height -
-        5 * data.age +
-        (isMale ? 5 : -161)
-    );
-
-    // Учёт коэффициента активности
-    let activityMultiplier = 0;
-    switch (activityLevel) {
-      case ACTIVITY_LEVEL_1:
-        activityMultiplier = 1.2;
-        break;
-      case ACTIVITY_LEVEL_2, ACTIVITY_LEVEL_3:
-        activityMultiplier = 1.55;
-        break;
-      case ACTIVITY_LEVEL_4:
-        activityMultiplier = 1.9;
-        break;
-    }
-
-    const calories = (1.1 * bmr * activityMultiplier).toFixed(2);
-
-    // Идеальный вес
-    let idealWeight = 0;
-    if (data.height <= 165) {
-      idealWeight = data.height - 100;
-    } else if (data.height > 165 && data.height <= 175) {
-      idealWeight = data.height - 105;
-    } else {
-      idealWeight = data.height - 110;
-    }
-
-    // Расчёт БЖУ
-    const proteinCalories = (calories * 0.2).toFixed(2); // 30% калорий на белки
-    const fatCalories = (calories * 0.3).toFixed(2); // 30% калорий на жиры
-    const carbCalories = (calories * 0.5).toFixed(2); // 40% калорий на углеводы
-
-    const macros = {
-        protein: (proteinCalories / 4).toFixed(2), // Белки: 1 г = 4 ккал
-        fat: (fatCalories / 9).toFixed(2), // Жиры: 1 г = 9 ккал
-        carbs: (carbCalories / 4).toFixed(2) // Углеводы: 1 г = 4 ккал
-    };
-
-    const dayMealsCalories = {
-      breakfast: {
-        name: "Завтрак",
-        calories: (calories * 0.25).toFixed(2),
-        protein: (proteinCalories * 0.25).toFixed(2),
-        fat: (fatCalories * 0.25).toFixed(2),
-        carbs: (carbCalories * 0.25).toFixed(2)
-      },
-      snack_1: {
-        name: "Перекус",
-        calories: (calories * 0.1).toFixed(2),
-        protein: (proteinCalories * 0.1).toFixed(2),
-        fat: (fatCalories * 0.1).toFixed(2),
-        carbs: (carbCalories * 0.1).toFixed(2)
-      },
-      lunch: {
-        name: "Обед",
-        calories: (calories * 0.35).toFixed(2),
-        protein: (proteinCalories * 0.35).toFixed(2),
-        fat: (fatCalories * 0.35).toFixed(2),
-        carbs: (carbCalories * 0.35).toFixed(2)
-      },
-      lunch: {
-        name: "Обед",
-        calories: (calories * 0.35).toFixed(2),
-        protein: (proteinCalories * 0.35).toFixed(2),
-        fat: (fatCalories * 0.35).toFixed(2),
-        carbs: (carbCalories * 0.35).toFixed(2)
-      },
-      snack_2: {
-        name: "Перекус",
-        calories: (calories * 0.1).toFixed(2),
-        protein: (proteinCalories * 0.1).toFixed(2),
-        fat: (fatCalories * 0.1).toFixed(2),
-        carbs: (carbCalories * 0.1).toFixed(2)
-      },
-      dinner: {
-        name: "Ужин",
-        calories: (calories * 0.2).toFixed(2),
-        protein: (proteinCalories * 0.2).toFixed(2),
-        fat: (fatCalories * 0.2).toFixed(2),
-        carbs: (carbCalories * 0.2).toFixed(2)
-      },
-    }
-
-    // Добавляем результаты в data
-    const enrichedData = {
-        ...data,
-        bmi,
-        bmiInterpretation,
-        idealWeight,
-        bmr,
-        calories,
-        macros,
-        dayMealsCalories
-    };
-
-    console.log("Application form data: ", enrichedData);
-
-    localStorage.clear();
-
+    setFinalAnswers(finalAnswers);
     endQuiz();
-
-    generatePDF(finalAnswers, quizQuestions, enrichedData);
   };
 
   const currentQuestion = quizQuestions[currentQuestionIndex];

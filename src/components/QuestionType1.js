@@ -10,12 +10,14 @@ function QuestionType1({ data, onAnswer, amount }) {
     if (savedAnswer) {
       setSelectedAnswer(savedAnswer);
     }
+    console.log(selectedAnswer);
   }, [data.id]);
 
   const handleAnswer = (answer) => {
     setSelectedAnswer(answer);
-    localStorage.setItem(`answer-${data.id}`, answer); // Сохраняем ответ в localStorage
+    localStorage.setItem(`answer-${data.id}`, (answer ? answer : " ")); // Сохраняем ответ в localStorage
     onAnswer({ id: data.id, answer });
+    setSelectedAnswer("");
   };
 
   return (

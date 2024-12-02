@@ -48,7 +48,7 @@ function QuestionType4({data, onAnswer, amount}) {
   };
 
   const handleAnswer = () => {
-    onAnswer({ id: data.id, items});
+    onAnswer({ id: data.id, answer: items});
   }
 
   return (
