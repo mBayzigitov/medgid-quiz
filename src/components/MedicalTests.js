@@ -163,12 +163,8 @@ function MedicalTests({ medicalTestsDone, quizQuestions, finalAnswers }) {
             hmsTest,
             coprogram,
             bloodTest
-        ].filter(f => f != null);
-
-        console.log("Got " + testsList.length + " files:");
-        for (const t in testsList) {
-            console.log(t.name);
-        }
+        ].filter(f => f != null)
+         .forEach(f => console.log(f.name));
 
         localStorage.clear();
 

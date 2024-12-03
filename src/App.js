@@ -112,14 +112,6 @@ const quizQuestions = [
     ]
   },
   {
-    type: 1,
-    question: "Проходили ли Биоимпедансный анализ?",
-    answers: [
-      "Да",
-      "Нет"
-    ]
-  },
-  {
     type: 4,
     question: "Какие из БАДов принимаете?",
     hints: sampleHints
