@@ -23,14 +23,6 @@ const sampleHints = [
 const quizQuestions = [
   {
     type: 3,
-    question: "Сколько Ккал потребляете в день?",
-    desc: "Выбрать среднее значение за 3-5 дней",
-    linkDesc: "дневник питания с подсчетом калорий",
-    link: "https://health-diet.ru/diary/foodDiary",
-    isNecessary: false
-  },
-  {
-    type: 3,
     question: "Заболевания, операции",
     desc: "Перечислите хронические заболевания, операции",
     linkDesc: null,
@@ -105,7 +97,7 @@ const quizQuestions = [
   },
   {
     type: 1,
-    question: "Сдавали ли ОАК и др. анализы в недавнее время?",
+    question: "Сдавали ли ОАК (общий анализ крови) в недавнее время?",
     answers: [
       "Да",
       "Нет"

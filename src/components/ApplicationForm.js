@@ -112,7 +112,7 @@ function ApplicationForm({ incrementStep }) {
                 {/* Возраст */}
                 <input
                     id='age'
-                    placeholder='Возраст'
+                    placeholder='Полных лет'
                     {...register("age", { required: true, validate: validatePosNumbers })}
                 />
                 <p id='age-err' className={`${errors.age ? INVALID_FIELD : VALID_FIELD} plain-error`}>* Введите корректный возраст</p>

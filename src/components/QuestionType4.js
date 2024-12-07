@@ -96,7 +96,7 @@ function QuestionType4({data, onAnswer, amount}) {
       </div>
 
       {/* Список подсказок */}
-      <div className="hints">
+      {/* <div className="hints">
         <p className="hints-title">Возможные варианты:</p>
         <div className="hints-list">
           {data.hints?.map((hint, index) => (
@@ -109,7 +109,7 @@ function QuestionType4({data, onAnswer, amount}) {
             </button>
           ))}
         </div>
-      </div>
+      </div> */}
       <button onClick={handleAnswer} className="q4-submit-button">
         Подтвердить
       </button>
