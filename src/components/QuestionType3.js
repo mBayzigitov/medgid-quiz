@@ -16,11 +16,9 @@ function QuestionType3({ data, onAnswer, amount }) {
 
     const handleAnswer = () => {
         if (data.isNecessary && rawAnswer === "") {
-            console.log(data.isNecessary)
             return;
         }
 
-        console.log(data.id + ": " + rawAnswer)
         localStorage.setItem(`answer-${data.id}`, (rawAnswer ? rawAnswer : " "));
         setRawAnswer("");
         onAnswer({ id: data.id, answer: rawAnswer, });

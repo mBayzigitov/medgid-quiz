@@ -35,8 +35,6 @@ function MedicalTests({ medicalTestsDone, quizQuestions, finalAnswers }) {
     }
 
     const handleSubmit = () => {
-        console.log('Submitting answers:', finalAnswers);
-
         const data = JSON.parse(localStorage.getItem(`aform`));
         const activityLevel = localStorage.getItem(`answer-7`);
 
@@ -73,15 +71,15 @@ function MedicalTests({ medicalTestsDone, quizQuestions, finalAnswers }) {
         // Учёт коэффициента активности
         let activityMultiplier = 1.2;
         switch (activityLevel) {
-        case ACTIVITY_LEVEL_1:
-            activityMultiplier = 1.2;
-            break;
-        case ACTIVITY_LEVEL_2, ACTIVITY_LEVEL_3:
-            activityMultiplier = 1.55;
-            break;
-        case ACTIVITY_LEVEL_4:
-            activityMultiplier = 1.9;
-            break;
+            case ACTIVITY_LEVEL_1:
+                activityMultiplier = 1.2;
+                break;
+            case ACTIVITY_LEVEL_2, ACTIVITY_LEVEL_3:
+                activityMultiplier = 1.55;
+                break;
+            case ACTIVITY_LEVEL_4:
+                activityMultiplier = 1.9;
+                break;
         }
 
         const calories = (1.1 * bmr * activityMultiplier).toFixed(2);
@@ -89,11 +87,11 @@ function MedicalTests({ medicalTestsDone, quizQuestions, finalAnswers }) {
         // Идеальный вес
         let idealWeight = 0;
         if (data.height <= 165) {
-        idealWeight = data.height - 100;
+            idealWeight = data.height - 100;
         } else if (data.height > 165 && data.height <= 175) {
-        idealWeight = data.height - 105;
+            idealWeight = data.height - 105;
         } else {
-        idealWeight = data.height - 110;
+            idealWeight = data.height - 110;
         }
 
         // Расчёт БЖУ
@@ -108,41 +106,41 @@ function MedicalTests({ medicalTestsDone, quizQuestions, finalAnswers }) {
         };
 
         const dayMealsCalories = {
-        breakfast: {
-            name: "Завтрак",
-            calories: (calories * 0.25).toFixed(2),
-            protein: (macros.protein * 0.25).toFixed(2),
-            fat: (macros.fat * 0.25).toFixed(2),
-            carbs: (macros.carbs * 0.25).toFixed(2)
-        },
-        snack_1: {
-            name: "Перекус",
-            calories: (calories * 0.1).toFixed(2),
-            protein: (macros.protein * 0.1).toFixed(2),
-            fat: (macros.fat * 0.1).toFixed(2),
-            carbs: (macros.carbs * 0.1).toFixed(2)
-        },
-        lunch: {
-            name: "Обед",
-            calories: (calories * 0.35).toFixed(2),
-            protein: (macros.protein * 0.35).toFixed(2),
-            fat: (macros.fat * 0.35).toFixed(2),
-            carbs: (macros.carbs * 0.35).toFixed(2)
-        },
-        snack_2: {
-            name: "Перекус",
-            calories: (calories * 0.1).toFixed(2),
-            protein: (macros.protein * 0.1).toFixed(2),
-            fat: (macros.fat * 0.1).toFixed(2),
-            carbs: (macros.carbs * 0.1).toFixed(2)
-        },
-        dinner: {
-            name: "Ужин",
-            calories: (calories * 0.2).toFixed(2),
-            protein: (macros.protein * 0.2).toFixed(2),
-            fat: (macros.fat * 0.2).toFixed(2),
-            carbs: (macros.carbs * 0.2).toFixed(2)
-        },
+            breakfast: {
+                name: "Завтрак",
+                calories: (calories * 0.25).toFixed(2),
+                protein: (macros.protein * 0.25).toFixed(2),
+                fat: (macros.fat * 0.25).toFixed(2),
+                carbs: (macros.carbs * 0.25).toFixed(2)
+            },
+            snack_1: {
+                name: "Перекус",
+                calories: (calories * 0.1).toFixed(2),
+                protein: (macros.protein * 0.1).toFixed(2),
+                fat: (macros.fat * 0.1).toFixed(2),
+                carbs: (macros.carbs * 0.1).toFixed(2)
+            },
+            lunch: {
+                name: "Обед",
+                calories: (calories * 0.35).toFixed(2),
+                protein: (macros.protein * 0.35).toFixed(2),
+                fat: (macros.fat * 0.35).toFixed(2),
+                carbs: (macros.carbs * 0.35).toFixed(2)
+            },
+            snack_2: {
+                name: "Перекус",
+                calories: (calories * 0.1).toFixed(2),
+                protein: (macros.protein * 0.1).toFixed(2),
+                fat: (macros.fat * 0.1).toFixed(2),
+                carbs: (macros.carbs * 0.1).toFixed(2)
+            },
+            dinner: {
+                name: "Ужин",
+                calories: (calories * 0.2).toFixed(2),
+                protein: (macros.protein * 0.2).toFixed(2),
+                fat: (macros.fat * 0.2).toFixed(2),
+                carbs: (macros.carbs * 0.2).toFixed(2)
+            },
         }
 
         // Добавляем результаты в data
@@ -157,21 +155,53 @@ function MedicalTests({ medicalTestsDone, quizQuestions, finalAnswers }) {
             dayMealsCalories
         };
 
-        console.log("Application form data: ", enrichedData);
-
-        const testsList = [
-            hmsTest,
-            coprogram,
-            bloodTest
-        ].filter(f => f != null)
-         .forEach(f => console.log(f.name));
-
         localStorage.clear();
 
-        generatePDF(finalAnswers, quizQuestions, enrichedData);
+        // Отправить данные на почту
+        const files = [];
+
+        if (hmsTest) {
+            files.push({ file: hmsTest, filename: hmsTestFilename });
+        }
+        if (coprogram) {
+            files.push({ file: coprogram, filename: coprogramFilename });
+        }
+        if (bloodTest) {
+            files.push({ file: bloodTest, filename: bloodTestFilename });
+        }
+
+        // Generate PDF and add it as an attachment
+        const genPdf = generatePDF(finalAnswers, quizQuestions, enrichedData);
+        const pdfBlob = genPdf.output('blob');
+        files.push({ file: pdfBlob, filename: 'quiz-results.pdf' });
+
+        sendEmailWithAttachments(files);
 
         medicalTestsDone();
     }
+
+    const sendEmailWithAttachments = async (files) => {
+        const formData = new FormData();
+
+        files.forEach(({ file, filename }) => {
+            if (file) {
+                formData.append('attachments', file);
+                formData.append('filenames', filename);
+            }
+        });
+
+        const response = await fetch('http://localhost:5000/send-email', {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            console.error('Failed to send email:', error);
+        } else {
+            console.log('Email sent successfully!');
+        }
+    };
 
     return (
         <div className='main-container'>
@@ -181,9 +211,9 @@ function MedicalTests({ medicalTestsDone, quizQuestions, finalAnswers }) {
                 <p className='m-test-name'>&#8226; ХМС микробиоты</p>
                 <label class="input-file">
                     <span class="input-file-text" type="text">{hmsTestFilename}</span>
-                    <input 
-                        type="file" 
-                        name="file" 
+                    <input
+                        type="file"
+                        name="file"
                         onChange={(e) => handleLoadHmsTest(e.target.files[0])}
                         accept={ACCEPTED_FILE_TYPES}
                     />
@@ -193,28 +223,28 @@ function MedicalTests({ medicalTestsDone, quizQuestions, finalAnswers }) {
                 <p className='m-test-name'>&#8226; Копрограмма</p>
                 <label class="input-file">
                     <span class="input-file-text" type="text">{coprogramFilename}</span>
-                    <input 
-                        type="file" 
+                    <input
+                        type="file"
                         name="file"
                         onChange={(e) => handleLoadCoprogramTest(e.target.files[0])}
                         accept={ACCEPTED_FILE_TYPES}
-                    />        
+                    />
                     <span class="input-file-btn">Выберите файл</span>
                 </label>
 
                 <p className='m-test-name'>&#8226; Общий анализ крови</p>
                 <label class="input-file">
                     <span class="input-file-text" type="text">{bloodTestFilename}</span>
-                    <input 
-                        type="file" 
+                    <input
+                        type="file"
                         name="file"
                         onChange={(e) => handleLoadBloodTest(e.target.files[0])}
                         accept={ACCEPTED_FILE_TYPES}
-                    />        
+                    />
                     <span class="input-file-btn">Выберите файл</span>
                 </label>
 
-                <button id='submit-tests' type='submit'>Отправить</button>
+                <button id='submit-tests'>Отправить</button>
             </form>
         </div>
     );

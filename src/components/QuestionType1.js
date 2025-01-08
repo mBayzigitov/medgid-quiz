@@ -10,7 +10,6 @@ function QuestionType1({ data, onAnswer, amount }) {
     if (savedAnswer) {
       setSelectedAnswer(savedAnswer);
     }
-    console.log(selectedAnswer);
   }, [data.id]);
 
   const handleAnswer = (answer) => {

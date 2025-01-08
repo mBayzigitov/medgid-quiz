@@ -119,5 +119,5 @@ export const generatePDF = (questionsAnswers, questions, applicationFormData) =>
   });
 
   // Save the PDF
-  doc.save("User_Report.pdf");
+  return doc;
 };

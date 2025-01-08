@@ -12,7 +12,6 @@ function ApplicationForm({ incrementStep }) {
     const { register, formState: { errors }, handleSubmit, setValue } = useForm();
     const onSubmit = data => {
         localStorage.setItem(`aform`, JSON.stringify(data));
-        console.log(data);
         incrementStep();
     }
 
