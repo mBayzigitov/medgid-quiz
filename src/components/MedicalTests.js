@@ -182,24 +182,31 @@ function MedicalTests({ medicalTestsDone, quizQuestions, finalAnswers }) {
 
     const sendEmailWithAttachments = async (files) => {
         const formData = new FormData();
+        const filenames = [];
 
         files.forEach(({ file, filename }) => {
             if (file) {
                 formData.append('attachments', file);
-                formData.append('filenames', filename);
+                filenames.push(filename);
             }
         });
 
-        const response = await fetch('http://localhost:5000/send-email', {
-            method: 'POST',
-            body: formData,
-        });
+        formData.append('filenames', JSON.stringify(filenames));
 
-        if (!response.ok) {
-            const error = await response.json();
-            console.error('Failed to send email:', error);
-        } else {
-            console.log('Email sent successfully!');
+        try {
+            const response = await fetch('http://localhost:5000/send-email', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                console.error('Failed to send email:', error);
+            } else {
+                console.log('Email sent successfully!');
+            }
+        } catch (err) {
+            console.error('Error occurred while sending email:', err);
         }
     };
 
