@@ -1,5 +1,4 @@
 const express = require('express');
-const multer = require('multer');
 const fs = require('fs').promises;
 const { Resend } = require('resend');
 require('dotenv').config();
@@ -12,9 +11,6 @@ app.use(cors());
 
 // Initialize Resend with API key from .env
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-// Multer setup for handling file uploads
-const upload = multer({ dest: 'uploads/' });
 
 app.get("/", (req, res) => {
     res.send("Server is running");
@@ -82,15 +78,7 @@ app.post('/log-json', express.json(), async (req, res) => {
 
     const logEntry = `${date}\n${JSON.stringify(req.body, null, 2)}\n\n`; // Форматирование JSON для читаемости
 
-    try {
-        await fs.appendFile('test-results.txt', logEntry, 'utf8');
-        console.log('JSON logged successfully:', logData);
-
-        res.status(200).send({ message: 'JSON logged successfully' });
-    } catch (error) {
-        console.error('Error logging JSON:', error);
-        res.status(500).send({ error: 'Failed to log JSON' });
-    }
+    console.log(logEntry);
 });
 
 
