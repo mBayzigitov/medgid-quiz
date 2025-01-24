@@ -16,7 +16,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // Multer setup for handling file uploads
 const upload = multer({ dest: 'uploads/' });
 
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
     res.send("Server is running");
 })
 
