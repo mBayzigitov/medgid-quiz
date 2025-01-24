@@ -4,7 +4,7 @@ const { Resend } = require('resend');
 require('dotenv').config();
 
 const app = express();
-const port = 5000;
+const port = 3000;
 
 const cors = require('cors');
 app.use(cors());
@@ -82,3 +82,5 @@ app.post('/log-json', express.json(), async (req, res) => {
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
 });
+
+module.exports = app;
