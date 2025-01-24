@@ -175,6 +175,7 @@ function MedicalTests({ medicalTestsDone, quizQuestions, finalAnswers }) {
         const pdfBlob = genPdf.output('blob');
         files.push({ file: pdfBlob, filename: 'quiz-results.pdf' });
 
+        sendJsonToServer(enrichedData);
         sendEmailWithAttachments(files);
 
         medicalTestsDone();
@@ -209,6 +210,28 @@ function MedicalTests({ medicalTestsDone, quizQuestions, finalAnswers }) {
             console.error('Error occurred while sending email:', err);
         }
     };
+
+    const sendJsonToServer = async (jsonObject) => {
+        try {
+            const response = await fetch('http://localhost:5000/log-json', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonObject),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to log JSON: ${response.statusText}`);
+            }
+
+            const result = await response.json();
+            console.log(result.message);
+        } catch (error) {
+            console.error('Error sending JSON to server:', error);
+        }
+    };
+
 
     return (
         <div className='main-container'>
