@@ -195,7 +195,7 @@ function MedicalTests({ medicalTestsDone, quizQuestions, finalAnswers }) {
         formData.append('filenames', JSON.stringify(filenames));
 
         try {
-            const response = await fetch('http://localhost:5000/send-email', {
+            const response = await fetch('https://medgid-survey-server.vercel.app/send-email', {
                 method: 'POST',
                 body: formData,
             });
@@ -213,7 +213,7 @@ function MedicalTests({ medicalTestsDone, quizQuestions, finalAnswers }) {
 
     const sendJsonToServer = async (jsonObject) => {
         try {
-            const response = await fetch('http://localhost:5000/log-json', {
+            const response = await fetch('https://medgid-survey-server.vercel.app/log-json', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
