@@ -77,6 +77,7 @@ app.post('/log-json', express.json(), async (req, res) => {
     const logEntry = `${date}\n${JSON.stringify(req.body, null, 2)}\n\n`; // Formatting JSON for readability
 
     console.log(logEntry);
+    res.status(204);
 });
 
 app.listen(port, () => {
