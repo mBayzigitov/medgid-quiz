@@ -1,5 +1,5 @@
 const express = require('express');
-const fs = require('fs').promises;
+const multer = require('multer');
 const { Resend } = require('resend');
 require('dotenv').config();
 
@@ -12,9 +12,13 @@ app.use(cors());
 // Initialize Resend with API key from .env
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// Multer setup to store files in memory (no filesystem usage)
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
 app.get("/", (req, res) => {
     res.send("Server is running");
-})
+});
 
 // Endpoint to send emails
 app.post('/send-email', upload.array('attachments'), async (req, res) => {
@@ -37,21 +41,15 @@ app.post('/send-email', upload.array('attachments'), async (req, res) => {
     }
 
     try {
-        // Process all files into Base64 format
-        const attachments = await Promise.all(
-            files.map(async (file, index) => {
-                const fileBuffer = await fs.readFile(file.path);
-                const base64Content = fileBuffer.toString('base64');
+        // Process all files into Base64 format directly from memory
+        const attachments = files.map((file, index) => {
+            const base64Content = file.buffer.toString('base64'); // Directly using the buffer from memory
 
-                // Cleanup file immediately after reading it
-                await fs.unlink(file.path);
-
-                return {
-                    content: base64Content,
-                    filename: filenames ? filenames[index] : file.originalname,
-                };
-            })
-        );
+            return {
+                content: base64Content,
+                filename: filenames.length > 0 ? filenames[index] : file.originalname,
+            };
+        });
 
         const response = await resend.emails.send({
             from: 'onboarding@resend.dev',
@@ -76,11 +74,10 @@ app.post('/log-json', express.json(), async (req, res) => {
         body: req.body,
     };
 
-    const logEntry = `${date}\n${JSON.stringify(req.body, null, 2)}\n\n`; // Форматирование JSON для читаемости
+    const logEntry = `${date}\n${JSON.stringify(req.body, null, 2)}\n\n`; // Formatting JSON for readability
 
     console.log(logEntry);
 });
-
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
