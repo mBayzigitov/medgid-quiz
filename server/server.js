@@ -16,6 +16,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 // Multer setup for handling file uploads
 const upload = multer({ dest: 'uploads/' });
 
+app.use("/", (req, res) => {
+    res.send("Server is running");
+})
+
 // Endpoint to send emails
 app.post('/send-email', upload.array('attachments'), async (req, res) => {
     const date = new Date().toLocaleString();
