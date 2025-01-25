@@ -17,6 +17,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 app.get("/", (req, res) => {
+    console.log("Current target email: ", process.env.TARGET_EMAIL);
     res.send("Server is running");
 });
 
