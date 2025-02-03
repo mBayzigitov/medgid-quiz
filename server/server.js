@@ -53,7 +53,7 @@ app.post('/send-email', upload.array('attachments'), async (req, res) => {
         });
 
         const response = await resend.emails.send({
-            from: 'onboarding@resend.dev',
+            from: 'results@anketami.ru',
             to: process.env.TARGET_EMAIL, // Target emails
             subject: 'Новые данные тестирования',
             html: '<p>Данные тестирования пользователя</p>',

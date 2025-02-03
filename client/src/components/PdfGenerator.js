@@ -53,7 +53,7 @@ export const generatePDF = (questionsAnswers, questions, applicationFormData) =>
     `Идеальный вес (ИВ): ${applicationFormData.idealWeight} кг`,
     `БОО (базовый обмен веществ): ${applicationFormData.bmr}`,
     `Сут. потребность в калориях: ${applicationFormData.calories}`,
-    `Макроэлементы: Белки ${applicationFormData.macros.protein}г, Жиры ${applicationFormData.macros.fat}г, Углеводы ${applicationFormData.macros.carbs}г`
+    `Макроэлементы (сут. кол-во): Белки ${applicationFormData.macros.protein}г, Жиры ${applicationFormData.macros.fat}г, Углеводы ${applicationFormData.macros.carbs}г`
   ];
 
   appData.forEach((line) => {
