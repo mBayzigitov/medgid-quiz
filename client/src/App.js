@@ -113,7 +113,6 @@ const quizQuestions = [
 function App() {
   const [step, setStep] = useState(0)
   const [quizStarted, setQuizStarted] = useState(false)
-  const [clicked, setClicked] = useState(false);
   const [quizDone, setQuizDone] = useState(false);
   const [filesAttached, setFilesAttached] = useState(false);
 
@@ -217,7 +216,7 @@ function App() {
               полученная в рамках оказания мне услуг информация носит
               рекомендательный характер и не является назначением врача
               или иного медицинского работника.</b></p> */}
-            <button className="agreed" onClick={handleNextStep} disabled={!clicked}>Далее</button>
+            <button className="agreed" onClick={handleNextStep}>Далее</button>
           </div>
         </div>
       )}
