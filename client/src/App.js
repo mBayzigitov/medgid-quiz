@@ -113,7 +113,6 @@ const quizQuestions = [
 function App() {
   const [step, setStep] = useState(0)
   const [quizStarted, setQuizStarted] = useState(false)
-  const [clicked, setClicked] = useState(false);
   const [quizDone, setQuizDone] = useState(false);
   const [filesAttached, setFilesAttached] = useState(false);
 
@@ -194,7 +193,7 @@ function App() {
           <div className='centered-text personal-data'>
             <h4>О персональных данных</h4>
             <p>Проходя опросник, вы соглашаетесь с политикой обработки персональных данных</p>
-            <a href="https://medgid.pro/policy/" onClick={() => setClicked(true)} target="_blank">Ознакомиться с политикой обработки данных</a>
+            <a href="https://medgid.pro/policy/" target="_blank">Ознакомиться с политикой обработки данных</a>
             {/* <p>Уважаемый пользователь, в соответствии с ФЗ №152 мы обязаны получить от вас согласие на обработку персональных данных. Полный
               текст согласия ниже.</p>
             <p>В соответствии с требованиями ст. 9 ФЗ от 27.07.2006 г. «О
@@ -217,7 +216,7 @@ function App() {
               полученная в рамках оказания мне услуг информация носит
               рекомендательный характер и не является назначением врача
               или иного медицинского работника.</b></p> */}
-            <button className="agreed" onClick={handleNextStep} disabled={!clicked}>Далее</button>
+            <button className="agreed" onClick={handleNextStep}>Далее</button>
           </div>
         </div>
       )}
